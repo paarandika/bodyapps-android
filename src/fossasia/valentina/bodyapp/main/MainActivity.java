@@ -3,6 +3,7 @@ package fossasia.valentina.bodyapp.main;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,15 +25,22 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
 		exit=(Button)findViewById(R.id.exit);
-		exit.setOnClickListener(new OnClickListener() {
-			
+		exit.setOnClickListener(new OnClickListener() {	
 			@Override
 			public void onClick(View v) {
 				finish();
-//				android.os.Process.killProcess(android.os.Process.myPid());
-//                System.exit(1);
-
+			}
+		});
+		
+		saved=(Button)findViewById(R.id.saved);
+		saved.setOnClickListener(new OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(MainActivity.this, SavedActivity.class);
+				startActivity(intent);
+				
 			}
 		});
 	}
