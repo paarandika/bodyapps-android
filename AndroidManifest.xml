@@ -26,6 +26,10 @@
             android:name="fossasia.valentina.bodyapp.main.SavedActivity"
             android:label="@string/title_activity_saved" >
         </activity>
+        <activity
+            android:name="fossasia.valentina.bodyapp.main.SavedActivity$ViewSavedActivity"
+            android:label="@string/title_activity_view_saved" >
+        </activity>
     </application>
 
 </manifest>
