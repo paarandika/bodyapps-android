@@ -38,6 +38,15 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+		settings=(Button)findViewById(R.id.settings);
+		settings.setOnClickListener(new OnClickListener() {		
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(MainActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				
+			}
+		});
 	}
 
 	@Override
