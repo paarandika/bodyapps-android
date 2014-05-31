@@ -7,5 +7,12 @@
     <string name="title_activity_saved">SavedActivity</string>
     <string name="title_activity_view_saved">ViewSavedActivity</string>
     <string name="title_activity_seetings">SeetingsActivity</string>
+    <string name="title_activity_create">CreateActivity</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="gmail">Gmail</string>
+    <string name="name">Name</string>
+    <string name="gender">Gender</string>
+    <string name="unit">Unit</string>
 
 </resources>

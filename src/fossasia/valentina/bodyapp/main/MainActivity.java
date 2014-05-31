@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener{
 
 	private Button create;
 	private Button saved;
@@ -21,32 +21,14 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		exit=(Button)findViewById(R.id.exit);
-		exit.setOnClickListener(new OnClickListener() {	
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-		
-		saved=(Button)findViewById(R.id.saved);
-		saved.setOnClickListener(new OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				Intent intent=new Intent(MainActivity.this, SavedActivity.class);
-				startActivity(intent);
-				
-			}
-		});
-		settings=(Button)findViewById(R.id.settings);
-		settings.setOnClickListener(new OnClickListener() {		
-			@Override
-			public void onClick(View v) {
-				Intent intent=new Intent(MainActivity.this, SettingsActivity.class);
-				startActivity(intent);
-				
-			}
-		});
+		exit=(Button)findViewById(R.id.main_btn_exit);
+		exit.setOnClickListener(this);
+		saved=(Button)findViewById(R.id.main_btn_saved);
+		saved.setOnClickListener(this);
+		settings=(Button)findViewById(R.id.main_btn_settings);
+		settings.setOnClickListener(this);
+		create=(Button)findViewById(R.id.main_btn_create);
+		create.setOnClickListener(this);
 	}
 
 	@Override
@@ -67,6 +49,29 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch (v.getId()) {
+		case R.id.main_btn_create:
+			intent=new Intent(MainActivity.this, CreateActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.main_btn_saved:
+			intent=new Intent(MainActivity.this, SavedActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.main_btn_settings:
+			intent=new Intent(MainActivity.this, SettingsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.main_btn_exit:
+			finish();
+			break;
+		}
+		
 	}
 
 

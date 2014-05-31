@@ -70,7 +70,7 @@
             android:orientation="vertical" >
 
             <Button
-                android:id="@+id/buttonUrl"
+                android:id="@+id/main_btn_create"
                 style="@style/btnStyleios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:textColor="@drawable/btn_txt" />
 
             <Button
-                android:id="@+id/saved"
+                android:id="@+id/main_btn_saved"
                 style="@style/btnStyleios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:textColor="@drawable/btn_txt" />
 
             <Button
-                android:id="@+id/settings"
+                android:id="@+id/main_btn_settings"
                 style="@style/btnStyleios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                 android:textColor="@drawable/btn_txt" />
 
             <Button
-                android:id="@+id/exit"
+                android:id="@+id/main_btn_exit"
                 style="@style/btnStyleios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
