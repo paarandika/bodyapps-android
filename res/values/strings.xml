@@ -14,5 +14,7 @@
     <string name="name">Name</string>
     <string name="gender">Gender</string>
     <string name="unit">Unit</string>
+    <string name="title_activity_measurement">MeasurementActivity</string>
+    <string name="title_activity_item">ItemActivity</string>
 
 </resources>

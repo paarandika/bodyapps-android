@@ -46,6 +46,14 @@
             android:name="fossasia.valentina.bodyapp.main.CreateActivity"
             android:label="@string/title_activity_create" >
         </activity>
+        <activity
+            android:name="fossasia.valentina.bodyapp.main.MeasurementActivity"
+            android:label="@string/title_activity_measurement" >
+        </activity>
+        <activity
+            android:name="fossasia.valentina.bodyapp.main.MeasurementActivity$ItemActivity"
+            android:label="@string/title_activity_item" >
+        </activity>
     </application>
 
 </manifest>

@@ -97,7 +97,6 @@ public class SavedActivity extends Activity {
 			if (savedInstanceState != null) {
 				// Restore last state for checked position.
 				shownIndex = savedInstanceState.getInt("shownIndex", 0);
-				System.out.println(shownIndex);
 			}
 			
 			list=(ListView)rootView.findViewById(R.id.listView1);
@@ -123,7 +122,7 @@ public class SavedActivity extends Activity {
 			super.onActivityCreated(savedInstanceState);
 			View viewSaved=getActivity().findViewById(R.id.mesurements);
 			dualPane=viewSaved!=null && viewSaved.getVisibility()==View.VISIBLE;
-			list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			list.setChoiceMode(ListView.CHOICE_MODE_NONE);
 			if(dualPane){
 
 				System.out.println(shownIndex+"a");
@@ -149,9 +148,9 @@ public class SavedActivity extends Activity {
 				}
 			}else{
 				
-				Intent editnote=new Intent(view.getContext(), ViewSavedActivity.class);
-				editnote.putExtra("name", (CharSequence) measurementsList.get(shownIndex).chapterName);
-				startActivityForResult(editnote, 1);
+				Intent intent=new Intent(view.getContext(), ViewSavedActivity.class);
+				intent.putExtra("name", (CharSequence) measurementsList.get(shownIndex).chapterName);
+				startActivityForResult(intent, 1);
 			}
 		}
 		
