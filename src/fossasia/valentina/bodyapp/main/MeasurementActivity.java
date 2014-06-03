@@ -2,6 +2,8 @@ package fossasia.valentina.bodyapp.main;
 
 import java.io.Serializable;
 
+import fossasia.valentina.bodyapp.models.Measurement;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -20,11 +22,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.os.Build;
 
 public class MeasurementActivity extends Activity {
+	Measurement measurement;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_measurement);
+		final Serializable extra = this.getIntent().getSerializableExtra("measurement");
+		measurement=(Measurement)extra;
 
 	}
 
@@ -46,6 +51,10 @@ public class MeasurementActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
 	}
 
 	public static class GridFragment extends Fragment {
@@ -340,5 +349,6 @@ public class MeasurementActivity extends Activity {
 			return rootView;
 			}
 	}
+	
 
 }

@@ -3,15 +3,42 @@ package fossasia.valentina.bodyapp.models;
 import java.io.Serializable;
 
 public class User implements Serializable {
-	String email;
-	String name;
-	String pic;
-	public User(String email, String name) {
+	private String email;
+	private String name;
+	private String pic;
+	private String id;
+	private Boolean isCurrent;
+	public User(String email, String name, String id) {
 		super();
 		this.email = email;
 		this.name = name;
+		this.id = id;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public Boolean getIsCurrent() {
+		return isCurrent;
+	}
+	public void setIsCurrent(Boolean isCurrent) {
+		this.isCurrent = isCurrent;
 	}
 	
 	
-
 }

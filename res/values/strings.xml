@@ -16,5 +16,6 @@
     <string name="unit">Unit</string>
     <string name="title_activity_measurement">MeasurementActivity</string>
     <string name="title_activity_item">ItemActivity</string>
+    <string name="help">\?</string>
 
 </resources>

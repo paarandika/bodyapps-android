@@ -16,6 +16,10 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        public static final int gender_array=0x7f0c0000;
+        public static final int units_array=0x7f0c0001;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1382,6 +1386,7 @@ containing a value of this type.
         public static final int saved_list_selector=0x7f020087;
     }
     public static final class id {
+        public static final int across_back_shoulder_width=0x7f070083;
         public static final int action_bar=0x7f07002e;
         public static final int action_bar_activity_content=0x7f070027;
         public static final int action_bar_container=0x7f07002d;
@@ -1393,13 +1398,27 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070028;
         public static final int action_menu_presenter=0x7f070029;
         public static final int action_mode_close_button=0x7f070036;
-        public static final int action_settings=0x7f070071;
+        public static final int action_settings=0x7f070088;
         public static final int activity_chooser_view_content=0x7f070037;
         public static final int always=0x7f07001e;
+        public static final int arm_length=0x7f070068;
+        public static final int armscye_girth=0x7f07006c;
         public static final int beginning=0x7f070023;
         public static final int book_now=0x7f070010;
-        public static final int button1=0x7f070069;
-        public static final int button2=0x7f07006a;
+        public static final int btn_across_back_shoulder_width=0x7f070084;
+        public static final int btn_arm_length=0x7f070069;
+        public static final int btn_armscye_girth=0x7f07006d;
+        public static final int btn_bust_girth=0x7f07006f;
+        public static final int btn_height=0x7f070076;
+        public static final int btn_hip_girth=0x7f07007a;
+        public static final int btn_hip_height=0x7f070078;
+        public static final int btn_mid_neck_girth=0x7f07007e;
+        public static final int btn_shoulder_drop=0x7f070086;
+        public static final int btn_upper_arm_girth=0x7f07006b;
+        public static final int btn_wrist_girth=0x7f07007c;
+        public static final int bust_girth=0x7f07006e;
+        public static final int button1=0x7f070071;
+        public static final int button2=0x7f070072;
         public static final int buyButton=0x7f07000a;
         public static final int buy_now=0x7f07000f;
         public static final int buy_with_google=0x7f07000e;
@@ -1424,7 +1443,10 @@ containing a value of this type.
         public static final int expanded_menu=0x7f07003e;
         public static final int fragment1=0x7f07005d;
         public static final int grayscale=0x7f070012;
-        public static final int grid_view=0x7f070068;
+        public static final int grid_view=0x7f070070;
+        public static final int height=0x7f070075;
+        public static final int hip_girth=0x7f070079;
+        public static final int hip_height=0x7f070077;
         public static final int holo_dark=0x7f070005;
         public static final int holo_light=0x7f070006;
         public static final int home=0x7f070026;
@@ -1436,7 +1458,7 @@ containing a value of this type.
         public static final int imageView1=0x7f070058;
         public static final int item_container=0x7f070057;
         public static final int listMode=0x7f070014;
-        public static final int listView1=0x7f07006b;
+        public static final int listView1=0x7f070073;
         public static final int list_item=0x7f07003b;
         public static final int main_btn_create=0x7f070059;
         public static final int main_btn_exit=0x7f07005c;
@@ -1445,6 +1467,7 @@ containing a value of this type.
         public static final int match_parent=0x7f07000c;
         public static final int measurement_frame=0x7f07005e;
         public static final int mesurements=0x7f07005f;
+        public static final int mid_neck_girth=0x7f07007d;
         public static final int middle=0x7f070024;
         public static final int monochrome=0x7f070013;
         public static final int never=0x7f07001c;
@@ -1475,27 +1498,31 @@ containing a value of this type.
         public static final int settings_txt_email=0x7f070064;
         public static final int settings_txt_name=0x7f070063;
         public static final int shortcut=0x7f070040;
+        public static final int shoulder_drop=0x7f070085;
+        public static final int shoulder_slope_degrees=0x7f070087;
         public static final int showCustom=0x7f07001a;
         public static final int showHome=0x7f070017;
         public static final int showTitle=0x7f070019;
         public static final int split_action_bar=0x7f070030;
         public static final int strict_sandbox=0x7f070009;
         public static final int submit_area=0x7f07004b;
-        public static final int svd_date=0x7f07006e;
-        public static final int svd_image=0x7f070070;
-        public static final int svd_name=0x7f07006d;
-        public static final int svd_sync=0x7f07006f;
+        public static final int svd_date=0x7f070080;
+        public static final int svd_image=0x7f070082;
+        public static final int svd_name=0x7f07007f;
+        public static final int svd_sync=0x7f070081;
         public static final int tabMode=0x7f070015;
         public static final int terrain=0x7f070003;
-        public static final int tex=0x7f07006c;
+        public static final int tex=0x7f070074;
         public static final int textView1=0x7f070051;
         public static final int textView2=0x7f070053;
         public static final int title=0x7f07003d;
         public static final int top_action_bar=0x7f070032;
         public static final int up=0x7f070033;
+        public static final int upper_arm_girth=0x7f07006a;
         public static final int useLogo=0x7f070016;
         public static final int withText=0x7f07001f;
         public static final int wrap_content=0x7f07000d;
+        public static final int wrist_girth=0x7f07007b;
     }
     public static final class integer {
         /**  The maximum number of action buttons that should be permitted within
@@ -1573,13 +1600,13 @@ containing a value of this type.
         public static final int trunk=0x7f03002e;
     }
     public static final class menu {
-        public static final int create=0x7f0c0000;
-        public static final int item=0x7f0c0001;
-        public static final int main=0x7f0c0002;
-        public static final int measurement=0x7f0c0003;
-        public static final int saved=0x7f0c0004;
-        public static final int seetings=0x7f0c0005;
-        public static final int view_saved=0x7f0c0006;
+        public static final int create=0x7f0d0000;
+        public static final int item=0x7f0d0001;
+        public static final int main=0x7f0d0002;
+        public static final int measurement=0x7f0d0003;
+        public static final int saved=0x7f0d0004;
+        public static final int seetings=0x7f0d0005;
+        public static final int view_saved=0x7f0d0006;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1724,6 +1751,7 @@ containing a value of this type.
         public static final int gender=0x7f050038;
         public static final int gmail=0x7f050036;
         public static final int hello_world=0x7f05002e;
+        public static final int help=0x7f05003c;
         public static final int name=0x7f050037;
         public static final int title_activity_create=0x7f050033;
         public static final int title_activity_item=0x7f05003b;

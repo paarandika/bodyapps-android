@@ -16,7 +16,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Neck"
+            android:text="Hip and Waist"
             android:textColor="#F09918"
             android:textSize="48sp" />
 
@@ -26,12 +26,12 @@
             android:weightSum="1" >
 
             <EditText
-                android:id="@+id/mid_neck_girth"
+                android:id="@+id/hip_girth"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:ems="10"
-                android:hint="Mid neck girth" >
+                android:hint="Hip girth" >
 
                 <requestFocus />
             </EditText>
@@ -43,12 +43,41 @@
                 android:layout_weight=".3" />
 
             <Button
-                android:id="@+id/btn_mid_neck_girth"
+                android:id="@+id/btn_hip_girth"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight=".2"
                 android:text="@string/help" />
 
+        </LinearLayout>
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1" >
+
+            <EditText
+                android:id="@+id/wrist_girth"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:ems="10"
+                android:hint="Wrist girth" >
+
+                <requestFocus />
+            </EditText>
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3" />
+
+            <Button
+                android:id="@+id/btn_wrist_girth"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="@string/help" />
         </LinearLayout>
 
     </LinearLayout>

@@ -13,6 +13,9 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+import fossasia.valentina.bodyapp.managers.UserManager;
+import fossasia.valentina.bodyapp.models.User;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -155,6 +158,7 @@ public class SettingsActivity extends ActionBarActivity implements
 
 					});
 		}
+		
 		reload();
 	}
 	
@@ -226,6 +230,16 @@ public class SettingsActivity extends ActionBarActivity implements
  
                 txtName.setText(personName);
                 txtEmail.setText(email);
+                User user=new User(email, personName, "a2");
+                String userID=UserManager.getInstance(this).isUser(user);
+                if(userID.equals("NULL")){
+                	UserManager.getInstance(this).addUser(user);
+                }else{
+                	UserManager.getInstance(this).setCurrent(user);
+                }
+                System.out.println(UserManager.getInstance(this).isUser(user));
+//                UserManager.getInstance(this).delUser(user);
+//                System.out.println(UserManager.getInstance(this).isUser(user));
  
                 // by default the profile url gives 50x50 px image only
                 // we can replace the value with whatever dimension we want by
