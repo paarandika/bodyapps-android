@@ -56,12 +56,12 @@
             android:weightSum="1" >
 
             <EditText
-                android:id="@+id/wrist_girth"
+                android:id="@+id/waist_girth"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:ems="10"
-                android:hint="Wrist girth" >
+                android:hint="Waist girth" >
 
                 <requestFocus />
             </EditText>

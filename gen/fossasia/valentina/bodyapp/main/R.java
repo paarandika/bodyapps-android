@@ -1417,8 +1417,6 @@ containing a value of this type.
         public static final int btn_upper_arm_girth=0x7f07006b;
         public static final int btn_wrist_girth=0x7f07007c;
         public static final int bust_girth=0x7f07006e;
-        public static final int button1=0x7f070071;
-        public static final int button2=0x7f070072;
         public static final int buyButton=0x7f07000a;
         public static final int buy_now=0x7f07000f;
         public static final int buy_with_google=0x7f07000e;
@@ -1465,6 +1463,8 @@ containing a value of this type.
         public static final int main_btn_saved=0x7f07005a;
         public static final int main_btn_settings=0x7f07005b;
         public static final int match_parent=0x7f07000c;
+        public static final int measurement_btn_save=0x7f070072;
+        public static final int measurement_btn_save_sync=0x7f070071;
         public static final int measurement_frame=0x7f07005e;
         public static final int mesurements=0x7f07005f;
         public static final int mid_neck_girth=0x7f07007d;
@@ -1520,9 +1520,9 @@ containing a value of this type.
         public static final int up=0x7f070033;
         public static final int upper_arm_girth=0x7f07006a;
         public static final int useLogo=0x7f070016;
+        public static final int waist_girth=0x7f07007b;
         public static final int withText=0x7f07001f;
         public static final int wrap_content=0x7f07000d;
-        public static final int wrist_girth=0x7f07007b;
     }
     public static final class integer {
         /**  The maximum number of action buttons that should be permitted within

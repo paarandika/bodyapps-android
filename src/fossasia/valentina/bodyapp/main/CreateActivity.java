@@ -47,8 +47,9 @@ public class CreateActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(setData()){
+					System.out.println("here");
 				Intent intent=new Intent(CreateActivity.this, MeasurementActivity.class);
-				intent.putExtra("measurement", (CharSequence) measurement);
+				intent.putExtra("measurement",measurement);
 				startActivity(intent);
 				}
 				
@@ -112,7 +113,8 @@ public class CreateActivity extends Activity {
 		String userID=UserManager.getInstance(this).getCurrent();
 		if(userID!=null){
 		System.out.println(userID);
-		measurement=new Measurement(getID(), userID);
+		measurement=new Measurement(getID(), userID,person.getID(),spnUnits.getSelectedItemPosition());
+
 		}else{
 			return false;
 		}

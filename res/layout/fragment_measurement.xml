@@ -34,23 +34,23 @@
             android:weightSum="1.0" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/measurement_btn_save_sync"
                 style="@style/btnStyleios"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".5"
-                android:text="Button"
+                android:text="Save &amp; Sync"
                 android:textColor="@drawable/btn_txt" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/measurement_btn_save"
                 style="@style/btnStyleios"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".5"
-                android:text="Button"
+                android:text="Save"
                 android:textColor="@drawable/btn_txt" />
 
         </LinearLayout>

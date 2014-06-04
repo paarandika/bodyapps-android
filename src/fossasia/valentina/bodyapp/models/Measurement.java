@@ -13,51 +13,43 @@ public class Measurement implements Serializable{
 	private Date lastSync;
 	private Date lastEdit;
 	private int unit;
-	private int mid_neck_girth;
-	private int bust_girth;
-	private int waist_girth;
-	private int hip_girth;
-	private int across_back_shoulder_width;
-	private int shoulder_drop;
-	private int shoulder_slope_degrees;
-	private int arm_length;
-	private int upper_arm_girth;
-	private int armscye_girth;
-	private int height;
-	private int hip_height;
+	private String mid_neck_girth;
+	private String bust_girth;
+	private String waist_girth;
+	private String hip_girth;
+	private String across_back_shoulder_width;
+	private String shoulder_drop;
+	private String shoulder_slope_degrees;
+	private String arm_length;
+	private String upper_arm_girth;
+	private String armscye_girth;
+	private String height;
+	private String hip_height;
 	
-	public Measurement(String ID, String userID) {
-		super();
-		this.ID = ID;
-		this.userID=userID;
-	}
+//	public Measurement(String ID, String userID) {
+//		super();
+//		this.ID = ID;
+//		this.userID=userID;
+//	}
 
-	public Measurement(String iD, String userID, int personID, Date created,
-			Date lastSync, Date lastEdit, int unit, int mid_neck_girth,
-			int bust_girth, int waist_girth, int hip_girth,
-			int across_back_shoulder_width, int shoulder_drop,
-			int shoulder_slope_degrees, int arm_length, int upper_arm_girth,
-			int armscye_girth, int height, int hip_height) {
+	public Measurement(String iD, String userID, int personID, int unit) {
 		super();
 		ID = iD;
 		this.userID = userID;
 		this.personID = personID;
-		this.created = created;
-		this.lastSync = lastSync;
-		this.lastEdit = lastEdit;
-		this.unit = unit;
-		this.mid_neck_girth = mid_neck_girth;
-		this.bust_girth = bust_girth;
-		this.waist_girth = waist_girth;
-		this.hip_girth = hip_girth;
-		this.across_back_shoulder_width = across_back_shoulder_width;
-		this.shoulder_drop = shoulder_drop;
-		this.shoulder_slope_degrees = shoulder_slope_degrees;
-		this.arm_length = arm_length;
-		this.upper_arm_girth = upper_arm_girth;
-		this.armscye_girth = armscye_girth;
-		this.height = height;
-		this.hip_height = hip_height;
+		this.unit=unit;
+		this.mid_neck_girth = "";
+		this.bust_girth = "";
+		this.waist_girth = "";
+		this.hip_girth = "";
+		this.across_back_shoulder_width = "";
+		this.shoulder_drop = "";
+		this.shoulder_slope_degrees = "";
+		this.arm_length = "";
+		this.upper_arm_girth = "";
+		this.armscye_girth = "";
+		this.height = "";
+		this.hip_height = "";
 	}
 
 	public String getID() {
@@ -116,103 +108,99 @@ public class Measurement implements Serializable{
 		this.unit = unit;
 	}
 
-	public int getMid_neck_girth() {
+	public String getMid_neck_girth() {
 		return mid_neck_girth;
 	}
 
-	public void setMid_neck_girth(int mid_neck_girth) {
+	public void setMid_neck_girth(String mid_neck_girth) {
 		this.mid_neck_girth = mid_neck_girth;
 	}
 
-	public int getBust_girth() {
+	public String getBust_girth() {
 		return bust_girth;
 	}
 
-	public void setBust_girth(int bust_girth) {
+	public void setBust_girth(String bust_girth) {
 		this.bust_girth = bust_girth;
 	}
 
-	public int getWaist_girth() {
+	public String getWaist_girth() {
 		return waist_girth;
 	}
 
-	public void setWaist_girth(int waist_girth) {
+	public void setWaist_girth(String waist_girth) {
 		this.waist_girth = waist_girth;
 	}
 
-	public int getHip_girth() {
+	public String getHip_girth() {
 		return hip_girth;
 	}
 
-	public void setHip_girth(int hip_girth) {
+	public void setHip_girth(String hip_girth) {
 		this.hip_girth = hip_girth;
 	}
 
-	public int getAcross_back_shoulder_width() {
+	public String getAcross_back_shoulder_width() {
 		return across_back_shoulder_width;
 	}
 
-	public void setAcross_back_shoulder_width(int across_back_shoulder_width) {
+	public void setAcross_back_shoulder_width(String across_back_shoulder_width) {
 		this.across_back_shoulder_width = across_back_shoulder_width;
 	}
 
-	public int getShoulder_drop() {
+	public String getShoulder_drop() {
 		return shoulder_drop;
 	}
 
-	public void setShoulder_drop(int shoulder_drop) {
+	public void setShoulder_drop(String shoulder_drop) {
 		this.shoulder_drop = shoulder_drop;
 	}
 
-	public int getShoulder_slope_degrees() {
+	public String getShoulder_slope_degrees() {
 		return shoulder_slope_degrees;
 	}
 
-	public void setShoulder_slope_degrees(int shoulder_slope_degrees) {
+	public void setShoulder_slope_degrees(String shoulder_slope_degrees) {
 		this.shoulder_slope_degrees = shoulder_slope_degrees;
 	}
 
-	public int getArm_length() {
+	public String getArm_length() {
 		return arm_length;
 	}
 
-	public void setArm_length(int arm_length) {
+	public void setArm_length(String arm_length) {
 		this.arm_length = arm_length;
 	}
 
-	public int getUpper_arm_girth() {
+	public String getUpper_arm_girth() {
 		return upper_arm_girth;
 	}
 
-	public void setUpper_arm_girth(int upper_arm_girth) {
+	public void setUpper_arm_girth(String upper_arm_girth) {
 		this.upper_arm_girth = upper_arm_girth;
 	}
 
-	public int getArmscye_girth() {
+	public String getArmscye_girth() {
 		return armscye_girth;
 	}
 
-	public void setArmscye_girth(int armscye_girth) {
+	public void setArmscye_girth(String armscye_girth) {
 		this.armscye_girth = armscye_girth;
 	}
 
-	public int getHeight() {
+	public String getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
+	public void setHeight(String height) {
 		this.height = height;
 	}
 
-	public int getHip_height() {
+	public String getHip_height() {
 		return hip_height;
 	}
 
-	public void setHip_height(int hip_height) {
+	public void setHip_height(String hip_height) {
 		this.hip_height = hip_height;
 	}
-
-	
-	
-
 }

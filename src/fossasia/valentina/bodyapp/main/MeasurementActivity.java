@@ -2,27 +2,47 @@ package fossasia.valentina.bodyapp.main;
 
 import java.io.Serializable;
 
+import fossasia.valentina.bodyapp.managers.MeasurementManager;
 import fossasia.valentina.bodyapp.models.Measurement;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import android.os.Build;
 
 public class MeasurementActivity extends Activity {
-	Measurement measurement;
+	private static Measurement measurement;
+	
+	private static EditText mid_neck_girth;
+	private static EditText bust_girth;
+	private static EditText waist_girth;
+	private static EditText hip_girth;
+	private static EditText across_back_shoulder_width;
+	private static EditText shoulder_drop;
+	private static EditText shoulder_slope_degrees;
+	private static EditText arm_length;
+	private static EditText upper_arm_girth;
+	private static EditText armscye_girth;
+	private static EditText height;
+	private static EditText hip_height;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +94,10 @@ public class MeasurementActivity extends Activity {
 		final static int TRUNK = 9;
 		final static int HEIGHTS = 10;
 		final static int PICS = 11;
+		
+		private Button btnSave;
+		private Button btnSaveSync;
+		
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,6 +120,16 @@ public class MeasurementActivity extends Activity {
 
 					shownIndex = index;
 					viewSet(view);
+				}
+			});
+			
+			btnSave=(Button)rootView.findViewById(R.id.measurement_btn_save);
+			btnSave.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					DBSaver(v.getContext());
+					
 				}
 			});
 
@@ -185,10 +219,17 @@ public class MeasurementActivity extends Activity {
 			return fragment;
 		}
 		
+		@Override
 		public void onSaveInstanceState(Bundle outState) {
 			super.onSaveInstanceState(outState);
 
 			outState.putInt("shownIndex",shownIndex);
+		}
+		
+		public boolean DBSaver(Context context){
+			MeasurementManager.getInstance(context).addMeasurement(measurement);
+			//MeasurementManager.getInstance(context).getch(measurement.getID());
+			return true;
 		}
 
 	}
@@ -249,12 +290,30 @@ public class MeasurementActivity extends Activity {
 	}
 
 	public static class Neck extends Fragment {
+		
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.neck,
 					container, false);
+			
+			mid_neck_girth=(EditText)rootView.findViewById(R.id.mid_neck_girth);
+			if(!measurement.getMid_neck_girth().equals("")){
+				mid_neck_girth.setText(measurement.getMid_neck_girth());
+			}
 			return rootView;
 			}
+
+		
+		@Override
+		public void onDestroy() {
+			// TODO Auto-generated method stub
+			super.onDestroy();
+			Log.d("measurement","onDestroy");
+			if(!mid_neck_girth.getText().equals("")){
+				measurement.setMid_neck_girth(mid_neck_girth.getText().toString());
+			}
+		}
+		
 
 	}
 
@@ -263,8 +322,40 @@ public class MeasurementActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.shoulder,
 					container, false);
+			
+			across_back_shoulder_width=(EditText)rootView.findViewById(R.id.across_back_shoulder_width);
+			shoulder_drop=(EditText)rootView.findViewById(R.id.shoulder_drop);
+			shoulder_slope_degrees=(EditText)rootView.findViewById(R.id.shoulder_slope_degrees);
+			
+			if(!measurement.getAcross_back_shoulder_width().equals("")){
+				across_back_shoulder_width.setText(measurement.getAcross_back_shoulder_width());
+			}
+			if(!measurement.getShoulder_drop().equals("")){
+				shoulder_drop.setText(measurement.getShoulder_drop());
+			}
+			if(!measurement.getShoulder_slope_degrees().equals("")){
+				shoulder_slope_degrees.setText(measurement.getShoulder_slope_degrees());
+			}
+
 			return rootView;
 			}
+
+		@Override
+		public void onDestroy() {
+			// TODO Auto-generated method stub
+			super.onDestroy();
+			if(!across_back_shoulder_width.getText().equals("")){
+				measurement.setAcross_back_shoulder_width(across_back_shoulder_width.getText().toString());
+			}
+			if(!shoulder_drop.getText().equals("")){
+				measurement.setShoulder_drop(shoulder_drop.getText().toString());
+			}
+			if(!shoulder_slope_degrees.getText().equals("")){
+				measurement.setShoulder_slope_degrees(shoulder_slope_degrees.getText().toString());
+			}
+		}
+		
+		
 
 	}
 
@@ -273,8 +364,23 @@ public class MeasurementActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.chest,
 					container, false);
-			return rootView;
+			
+			bust_girth=(EditText)rootView.findViewById(R.id.bust_girth);
+			
+			if(!measurement.getBust_girth().equals("")){
+				bust_girth.setText(measurement.getBust_girth());
 			}
+			return rootView;
+		}
+		
+		@Override
+		public void onDestroy() {
+			// TODO Auto-generated method stub
+			super.onDestroy();
+			if(!bust_girth.getText().equals("")){
+				measurement.setBust_girth(bust_girth.getText().toString());
+			}
+		}
 
 	}
 
@@ -283,8 +389,38 @@ public class MeasurementActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.arm,
 					container, false);
+			
+			arm_length=(EditText)rootView.findViewById(R.id.arm_length);
+			upper_arm_girth=(EditText)rootView.findViewById(R.id.upper_arm_girth);
+			armscye_girth=(EditText)rootView.findViewById(R.id.armscye_girth);
+			
+			if(!measurement.getArm_length().equals("")){
+				arm_length.setText(measurement.getArm_length());
+			}
+			if(!measurement.getUpper_arm_girth().equals("")){
+				upper_arm_girth.setText(measurement.getUpper_arm_girth());
+			}
+			if(!measurement.getArmscye_girth().equals("")){
+				armscye_girth.setText(measurement.getArmscye_girth());
+			}
 			return rootView;
 			}
+		
+		@Override
+		public void onDestroy() {
+			// TODO Auto-generated method stub
+			super.onDestroy();
+			if(!arm_length.getText().equals("")){
+				measurement.setArm_length(arm_length.getText().toString());
+			}
+			if(!upper_arm_girth.getText().equals("")){
+				measurement.setUpper_arm_girth(upper_arm_girth.getText().toString());
+			}
+			if(!armscye_girth.getText().equals("")){
+				measurement.setArmscye_girth(armscye_girth.getText().toString());
+			}
+		}
+		
 	}
 
 	public static class Hand extends Fragment {
@@ -301,8 +437,31 @@ public class MeasurementActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.hip_and_waist,
 					container, false);
+			
+			hip_girth=(EditText)rootView.findViewById(R.id.hip_girth);
+			waist_girth=(EditText)rootView.findViewById(R.id.waist_girth);
+			
+			if(!measurement.getHip_girth().equals("")){
+				hip_girth.setText(measurement.getHip_girth());
+			}
+			if(!measurement.getWaist_girth().equals("")){
+				waist_girth.setText(measurement.getWaist_girth());
+			}
+			
 			return rootView;
 			}
+		
+		@Override
+		public void onDestroy() {
+			// TODO Auto-generated method stub
+			super.onDestroy();
+			if(!hip_girth.getText().equals("")){
+				measurement.setHip_girth(hip_girth.getText().toString());
+			}
+			if(!waist_girth.getText().equals("")){
+				measurement.setWaist_girth(waist_girth.getText().toString());
+			}
+		}
 	}
 
 	public static class Leg extends Fragment {
@@ -337,8 +496,30 @@ public class MeasurementActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.heights,
 					container, false);
+			
+			height=(EditText)rootView.findViewById(R.id.height);
+			hip_height=(EditText)rootView.findViewById(R.id.hip_height);
+			
+			if(!measurement.getHeight().equals("")){
+				height.setText(measurement.getHeight());
+			}
+			if(!measurement.getHip_height().equals("")){
+				hip_height.setText(measurement.getHip_height());
+			}
 			return rootView;
 			}
+		
+		@Override
+		public void onDestroy() {
+			// TODO Auto-generated method stub
+			super.onDestroy();
+			if(!height.getText().equals("")){
+				measurement.setHeight(height.getText().toString());
+			}
+			if(!hip_height.getText().equals("")){
+				measurement.setHip_height(hip_height.getText().toString());
+			}
+		}
 	}
 
 	public static class Pics extends Fragment {

@@ -367,8 +367,6 @@ int id btn_shoulder_drop 0x7f070086
 int id btn_upper_arm_girth 0x7f07006b
 int id btn_wrist_girth 0x7f07007c
 int id bust_girth 0x7f07006e
-int id button1 0x7f070071
-int id button2 0x7f070072
 int id buyButton 0x7f07000a
 int id buy_now 0x7f07000f
 int id buy_with_google 0x7f07000e
@@ -415,6 +413,8 @@ int id main_btn_exit 0x7f07005c
 int id main_btn_saved 0x7f07005a
 int id main_btn_settings 0x7f07005b
 int id match_parent 0x7f07000c
+int id measurement_btn_save 0x7f070072
+int id measurement_btn_save_sync 0x7f070071
 int id measurement_frame 0x7f07005e
 int id mesurements 0x7f07005f
 int id mid_neck_girth 0x7f07007d
@@ -470,9 +470,9 @@ int id top_action_bar 0x7f070032
 int id up 0x7f070033
 int id upper_arm_girth 0x7f07006a
 int id useLogo 0x7f070016
+int id waist_girth 0x7f07007b
 int id withText 0x7f07001f
 int id wrap_content 0x7f07000d
-int id wrist_girth 0x7f07007b
 int integer abc_max_action_buttons 0x7f080001
 int integer google_play_services_version 0x7f080000
 int layout abc_action_bar_decor 0x7f030000
