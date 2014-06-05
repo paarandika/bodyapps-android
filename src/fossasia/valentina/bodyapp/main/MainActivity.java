@@ -1,6 +1,7 @@
 package fossasia.valentina.bodyapp.main;
 
 import android.app.Activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+/**
+ * 
+ * Landing Screen of the app. All the functions will start from here.
+ *
+ */
 
 public class MainActivity extends Activity implements OnClickListener{
 
@@ -53,6 +60,7 @@ public class MainActivity extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
+		//Handles the clicks of every Button
 		Intent intent;
 		switch (v.getId()) {
 		case R.id.main_btn_create:
@@ -73,7 +81,10 @@ public class MainActivity extends Activity implements OnClickListener{
 		}
 		
 	}
-
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 
 
 }

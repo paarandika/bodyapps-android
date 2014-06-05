@@ -1,7 +1,6 @@
 package fossasia.valentina.bodyapp.models;
 
 import java.io.Serializable;
-import java.util.Date;
 
 
 
@@ -9,9 +8,9 @@ public class Measurement implements Serializable{
 	private String ID;
 	private String userID;
 	private int personID;
-	private Date created;
-	private Date lastSync;
-	private Date lastEdit;
+	private String created;
+	private String lastSync;
+	private String lastEdit;
 	private int unit;
 	private String mid_neck_girth;
 	private String bust_girth;
@@ -25,12 +24,21 @@ public class Measurement implements Serializable{
 	private String armscye_girth;
 	private String height;
 	private String hip_height;
+	private String wrist_girth;
 	
 //	public Measurement(String ID, String userID) {
 //		super();
 //		this.ID = ID;
 //		this.userID=userID;
 //	}
+
+	public String getWrist_girth() {
+		return wrist_girth;
+	}
+
+	public void setWrist_girth(String wrist_girth) {
+		this.wrist_girth = wrist_girth;
+	}
 
 	public Measurement(String iD, String userID, int personID, int unit) {
 		super();
@@ -50,6 +58,7 @@ public class Measurement implements Serializable{
 		this.armscye_girth = "";
 		this.height = "";
 		this.hip_height = "";
+		this.wrist_girth="";
 	}
 
 	public String getID() {
@@ -76,27 +85,27 @@ public class Measurement implements Serializable{
 		this.personID = personID;
 	}
 
-	public Date getCreated() {
+	public String getCreated() {
 		return created;
 	}
 
-	public void setCreated(Date created) {
+	public void setCreated(String created) {
 		this.created = created;
 	}
 
-	public Date getLastSync() {
+	public String getLastSync() {
 		return lastSync;
 	}
 
-	public void setLastSync(Date lastSync) {
+	public void setLastSync(String lastSync) {
 		this.lastSync = lastSync;
 	}
 
-	public Date getLastEdit() {
+	public String getLastEdit() {
 		return lastEdit;
 	}
 
-	public void setLastEdit(Date lastEdit) {
+	public void setLastEdit(String lastEdit) {
 		this.lastEdit = lastEdit;
 	}
 

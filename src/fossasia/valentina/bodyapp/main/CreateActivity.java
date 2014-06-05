@@ -1,5 +1,7 @@
 package fossasia.valentina.bodyapp.main;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import fossasia.valentina.bodyapp.managers.PersonManager;
@@ -33,35 +35,40 @@ public class CreateActivity extends Activity {
 	private TextView txtName;
 	private Person person;
 	private Measurement measurement;
-	
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create);
-		
-		btnCreate=(Button)findViewById(R.id.create_btn_create);
+
+		btnCreate = (Button) findViewById(R.id.create_btn_create);
 		btnCreate.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				if(setData()){
-					System.out.println("here");
-				Intent intent=new Intent(CreateActivity.this, MeasurementActivity.class);
-				intent.putExtra("measurement",measurement);
-				startActivity(intent);
+				if (setData()) {
+					//System.out.println("here");
+					Intent intent = new Intent(CreateActivity.this,
+							MeasurementActivity.class);
+					intent.putExtra("measurement", measurement);
+					startActivity(intent);
+					Activity host=(Activity)v.getContext();
+					host.finish();
 				}
-				
+
 			}
 		});
-		
-		spnUnits=(Spinner)findViewById(R.id.create_spn_unit);
-		ArrayAdapter<CharSequence> uitsAdapter = ArrayAdapter.createFromResource(this,R.array.units_array, android.R.layout.simple_spinner_item);
+
+		spnUnits = (Spinner) findViewById(R.id.create_spn_unit);
+		ArrayAdapter<CharSequence> uitsAdapter = ArrayAdapter
+				.createFromResource(this, R.array.units_array,
+						android.R.layout.simple_spinner_item);
 		spnUnits.setAdapter(uitsAdapter);
-		
-		spnGender=(Spinner)findViewById(R.id.create_spn_gender);
-		ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(this,R.array.gender_array, android.R.layout.simple_spinner_item);
+
+		spnGender = (Spinner) findViewById(R.id.create_spn_gender);
+		ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter
+				.createFromResource(this, R.array.gender_array,
+						android.R.layout.simple_spinner_item);
 		spnGender.setAdapter(genderAdapter);
 
 	}
@@ -85,49 +92,61 @@ public class CreateActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public boolean setData(){
-		txtEmail=(TextView)findViewById(R.id.create_txt_gmail);
-		txtName=(TextView)findViewById(R.id.create_txt_name);
+
+	public boolean setData() {
+		txtEmail = (TextView) findViewById(R.id.create_txt_gmail);
+		txtName = (TextView) findViewById(R.id.create_txt_name);
 		String name;
 		String email;
-		if(!txtEmail.getText().toString().equals("")){
-			email=txtEmail.getText().toString();
+		if (!txtEmail.getText().toString().equals("")) {
+			email = txtEmail.getText().toString();
 			System.out.println(email);
-		}else{
+		} else {
 			return false;
 		}
-		if(!txtName.getText().toString().equals("")){
+		if (!txtName.getText().toString().equals("")) {
 			System.out.println("boo2");
-			name=txtName.getText().toString();
-		}else{
+			name = txtName.getText().toString();
+		} else {
 			return false;
 		}
-//		System.out.println("boo");
-		person=new Person(email, name, spnGender.getSelectedItemPosition());
+		// System.out.println("boo");
+		person = new Person(email, name, spnGender.getSelectedItemPosition());
 		PersonManager.getInstance(this).addPerson(person);
-		int personID=PersonManager.getInstance(this).getPerson(person);
+		int personID = PersonManager.getInstance(this).getPerson(person);
 		System.out.println(personID);
 		person.setID(personID);
-		
-		String userID=UserManager.getInstance(this).getCurrent();
-		if(userID!=null){
-		System.out.println(userID);
-		measurement=new Measurement(getID(), userID,person.getID(),spnUnits.getSelectedItemPosition());
 
-		}else{
+		String userID = UserManager.getInstance(this).getCurrent();
+		if (userID != null) {
+			System.out.println(userID + " createActivity");
+
+			measurement = new Measurement(getID(), userID, person.getID(),
+					spnUnits.getSelectedItemPosition());
+
+			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
+			String dateText="";
+			try {
+				Date date = new Date();
+				dateText = dateformat.format(date);
+				System.out.println("Current Date Time 2: " + dateText);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			measurement.setCreated(dateText);
+
+		} else {
 			return false;
 		}
 		return true;
 	}
-	
-	public String getID(){
+
+	public String getID() {
 		UUID uuid = UUID.randomUUID();
-        String randomUUIDString = uuid.toString();
-        System.out.println("Random UUID String = " + randomUUIDString);
-        return randomUUIDString;
+		String randomUUIDString = uuid.toString();
+		System.out.println("Random UUID String = " + randomUUIDString);
+		return randomUUIDString;
 	}
-
-
 
 }

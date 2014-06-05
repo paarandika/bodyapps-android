@@ -48,7 +48,7 @@
         </activity>
         <activity
             android:name="fossasia.valentina.bodyapp.main.MeasurementActivity"
-            android:label="@string/title_activity_measurement" >
+            android:label="@string/title_activity_measurement">
         </activity>
         <activity
             android:name="fossasia.valentina.bodyapp.main.MeasurementActivity$ItemActivity"

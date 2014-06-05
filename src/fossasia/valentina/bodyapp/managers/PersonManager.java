@@ -59,11 +59,30 @@ public class PersonManager {
 		database.close();
 	}
 	
-	public void delUser(Person person) {
+	public void delPerson(Person person) {
 		this.database = this.dbHandler.getWritableDatabase();
 		database.delete(DBContract.Person.TABLE_NAME,
 				DBContract.User.COLUMN_NAME_ID + " ='" + person.getID() + "'",
 				null);
 		database.close();
+	}
+	
+	public Person getPersonbyID(int id){
+		Log.d("personmanager", "getPerson");
+		this.database = this.dbHandler.getReadableDatabase();
+		Cursor cursor = database.query(DBContract.Person.TABLE_NAME,
+				DBContract.Person.allColumns,
+				DBContract.Person.COLUMN_NAME_ID + " =" + id
+						, null, null, null, null);
+
+		if (cursor.moveToFirst()) {
+
+			Person out = new Person(cursor.getString(0),cursor.getString(1),cursor.getInt(2));
+			cursor.close();
+			database.close();
+			return out;
+		} else {
+			return null;
+		}
 	}
 }
