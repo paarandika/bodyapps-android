@@ -2,9 +2,12 @@ package fossasia.valentina.bodyapp.models;
 
 import java.io.Serializable;
 
+/**
+ * Model object for measurement
+ */
+public class Measurement implements Serializable {
 
-
-public class Measurement implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String ID;
 	private String userID;
 	private int personID;
@@ -25,27 +28,13 @@ public class Measurement implements Serializable{
 	private String height;
 	private String hip_height;
 	private String wrist_girth;
-	
-//	public Measurement(String ID, String userID) {
-//		super();
-//		this.ID = ID;
-//		this.userID=userID;
-//	}
-
-	public String getWrist_girth() {
-		return wrist_girth;
-	}
-
-	public void setWrist_girth(String wrist_girth) {
-		this.wrist_girth = wrist_girth;
-	}
 
 	public Measurement(String iD, String userID, int personID, int unit) {
 		super();
 		ID = iD;
 		this.userID = userID;
 		this.personID = personID;
-		this.unit=unit;
+		this.unit = unit;
 		this.mid_neck_girth = "";
 		this.bust_girth = "";
 		this.waist_girth = "";
@@ -58,7 +47,7 @@ public class Measurement implements Serializable{
 		this.armscye_girth = "";
 		this.height = "";
 		this.hip_height = "";
-		this.wrist_girth="";
+		this.wrist_girth = "";
 	}
 
 	public String getID() {
@@ -211,5 +200,13 @@ public class Measurement implements Serializable{
 
 	public void setHip_height(String hip_height) {
 		this.hip_height = hip_height;
+	}
+
+	public String getWrist_girth() {
+		return wrist_girth;
+	}
+
+	public void setWrist_girth(String wrist_girth) {
+		this.wrist_girth = wrist_girth;
 	}
 }

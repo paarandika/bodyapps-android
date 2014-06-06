@@ -4,16 +4,14 @@ import java.io.Serializable;
 
 import fossasia.valentina.bodyapp.managers.MeasurementManager;
 import fossasia.valentina.bodyapp.managers.PersonManager;
-import fossasia.valentina.bodyapp.managers.UserManager;
 import fossasia.valentina.bodyapp.models.Measurement;
 import fossasia.valentina.bodyapp.models.Person;
-import fossasia.valentina.bodyapp.models.User;
 import fossasia.valentina.bodyapp.sync.SyncMeasurement;
-import fossasia.valentina.bodyapp.sync.SyncUser;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -30,15 +28,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
-import android.os.Build;
 
+/**
+ * This is the view for adding data to created measurement. This view consist of
+ * 13 fragments and supporting activity "ItemActivity" One fragment handles the
+ * icon grid. Others are for each measurement group.
+ */
 public class MeasurementActivity extends Activity {
 	private static Measurement measurement;
 	private static Person person;
 	private static String mID;
+	private static Context context;
+	private static ProgressDialog progress;
 
 	private static EditText mid_neck_girth;
 	private static EditText bust_girth;
@@ -84,11 +86,15 @@ public class MeasurementActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Fragment which handles the icon grid and related functionality.
+	 */
 	public static class GridFragment extends Fragment {
 
-		Boolean dualPane;
-		int shownIndex = 0;
+		Boolean dualPane;// gets true if the device is on horizontal mode
+		int shownIndex = 0;// gets the index of shown measurement set
 
+		// Constants to separate measurement fragments at switch
 		final static int HEAD = 0;
 		final static int NECK = 1;
 		final static int SHOULDER = 2;
@@ -114,8 +120,8 @@ public class MeasurementActivity extends Activity {
 					.findViewById(R.id.grid_view);
 			gridView.setAdapter(new GridAdapter(rootView.getContext()));
 
+			// Restore last state for checked position
 			if (savedInstanceState != null) {
-				// Restore last state for checked position.
 				shownIndex = savedInstanceState.getInt("shownIndex", 0);
 			}
 
@@ -135,51 +141,56 @@ public class MeasurementActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					DBSaver(v.getContext());
-					// Intent intent=new Intent(v.getContext(),
-					// MainActivity.class);
-					// startActivity(intent);
 					Activity host = (Activity) v.getContext();
 					host.finish();
 				}
 			});
-			
-			btnSaveSync=(Button)rootView.findViewById(R.id.measurement_btn_save_sync);
+
+			btnSaveSync = (Button) rootView.findViewById(R.id.measurement_btn_save_sync);
 			btnSaveSync.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					DBSaver(v.getContext());
-					// Intent intent=new Intent(v.getContext(),
-					// MainActivity.class);
-					// startActivity(intent);
-					person=PersonManager.getInstance(v.getContext()).getPersonbyID(measurement.getPersonID());
+					person = PersonManager.getInstance(v.getContext())
+							.getPersonbyID(measurement.getPersonID());
 					System.out.println(person.getName());
-					new HttpAsyncTaskMeasurement().execute("http://192.168.1.2:8020/user/measurements");
-					Activity host = (Activity) v.getContext();
-					host.finish();
+					progress.show();
+					context = v.getContext();
+					new HttpAsyncTaskMeasurement()
+							.execute("http://192.168.1.2:8020/user/measurements");
+
 				}
 			});
+
+			// creates the progress dialog
+			progress = new ProgressDialog(rootView.getContext());
+			progress.setTitle("Synchronizing");
+			progress.setMessage("Please wait...");
+			progress.setCanceledOnTouchOutside(false);
 
 			return rootView;
 		}
 
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
-			// TODO Auto-generated method stub
 			super.onActivityCreated(savedInstanceState);
+			
 			View measurement = getActivity().findViewById(
 					R.id.measurement_frame);
 			dualPane = measurement != null
 					&& measurement.getVisibility() == View.VISIBLE;
+			
 			if (dualPane) {
-
-				System.out.println(shownIndex + "a");
 				viewSet(getView());
-
 			}
 
 		}
 
+		/**
+		 * Sets the view according to the orientation of the device
+		 * @param view
+		 */
 		public void viewSet(View view) {
 
 			if (dualPane) {
@@ -203,6 +214,11 @@ public class MeasurementActivity extends Activity {
 			}
 		}
 
+		/**
+		 * Choose which fragment to load according to the given index.
+		 * @param index
+		 * @return
+		 */
 		public static Fragment chooseView(int index) {
 			Fragment fragment = null;
 			switch (index) {
@@ -250,18 +266,25 @@ public class MeasurementActivity extends Activity {
 		@Override
 		public void onSaveInstanceState(Bundle outState) {
 			super.onSaveInstanceState(outState);
-
+			//saves the shown index
 			outState.putInt("shownIndex", shownIndex);
 		}
 
+		/**
+		 * Saves the measurement to the database
+		 * @param context
+		 * @return
+		 */
 		public boolean DBSaver(Context context) {
 			MeasurementManager.getInstance(context).addMeasurement(measurement);
-			// MeasurementManager.getInstance(context).getch(measurement.getID());
 			return true;
 		}
 
 	}
 
+	/**
+	 * Supporting activity to load measurement group fragments when device in portrait mode
+	 */
 	public static class ItemActivity extends Activity {
 
 		@Override
@@ -306,6 +329,10 @@ public class MeasurementActivity extends Activity {
 
 	}
 
+	/**
+	 *Fragments for measurement groups
+	 */
+	
 	public static class Head extends Fragment {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
@@ -425,7 +452,7 @@ public class MeasurementActivity extends Activity {
 					.findViewById(R.id.upper_arm_girth);
 			armscye_girth = (EditText) rootView
 					.findViewById(R.id.armscye_girth);
-			wrist_girth=(EditText)rootView.findViewById(R.id.wrist_girth);
+			wrist_girth = (EditText) rootView.findViewById(R.id.wrist_girth);
 
 			if (!measurement.getArm_length().equals("")) {
 				arm_length.setText(measurement.getArm_length());
@@ -458,8 +485,7 @@ public class MeasurementActivity extends Activity {
 						.setArmscye_girth(armscye_girth.getText().toString());
 			}
 			if (!wrist_girth.getText().equals("")) {
-				measurement
-						.setWrist_girth(wrist_girth.getText().toString());
+				measurement.setWrist_girth(wrist_girth.getText().toString());
 			}
 		}
 
@@ -567,13 +593,17 @@ public class MeasurementActivity extends Activity {
 			return rootView;
 		}
 	}
-	
+
 	public static void postUser(String url) {
 
 		mID = SyncMeasurement.sendMeasurement(measurement, person);
 	}
 
-	private static class HttpAsyncTaskMeasurement extends AsyncTask<String, Void, String> {
+	/**
+	 *Async task to send measurement to web application
+	 */
+	private static class HttpAsyncTaskMeasurement extends
+			AsyncTask<String, Void, String> {
 
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
@@ -582,6 +612,9 @@ public class MeasurementActivity extends Activity {
 			// Insert the user to the DataBase
 			if (mID != null) {
 				Log.d("settings", "done");
+				progress.dismiss();
+				Activity host = (Activity) context;
+				host.finish();
 			} else {
 				Log.d("settings", "cannot");
 			}

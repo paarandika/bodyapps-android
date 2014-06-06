@@ -68,10 +68,10 @@ public class SettingsActivity extends ActionBarActivity implements
 	private TextView txtName;
 	private TextView txtEmail;
 	private LinearLayout llProfileLayout;
-	static ProgressDialog progress;
+	private static ProgressDialog progress;
 	private String email;
 	private String personName;
-	private String userID;
+	private String userID=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +98,7 @@ public class SettingsActivity extends ActionBarActivity implements
 		progress = new ProgressDialog(this);
 		progress.setTitle("Loading");
 		progress.setMessage("Wait while loading...");
+		progress.setCanceledOnTouchOutside(false);
 	}
 
 	@Override
@@ -255,15 +256,18 @@ public class SettingsActivity extends ActionBarActivity implements
 				txtName.setText(personName);
 				txtEmail.setText(email);
 
-				progress.show();
-
+				
 				Log.d("settings", "here");
-				new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
-				// System.out.println(userID);
-
-				// System.out.println(UserManager.getInstance(this).isUser(user));
-				// UserManager.getInstance(this).delUser(user);
-				// System.out.println(UserManager.getInstance(this).isUser(user));
+				User user = new User(email, personName, userID);
+				String isUser = UserManager.getInstance(getBaseContext())
+						.isUser(user);
+				if (isUser.equals("NULL")) {
+					progress.show();
+					new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
+				} else {
+					UserManager.getInstance(getBaseContext()).setCurrent(user);
+					userID=isUser;
+				}
 
 				personPhotoUrl = personPhotoUrl.substring(0,
 						personPhotoUrl.length() - 2)
@@ -348,6 +352,9 @@ public class SettingsActivity extends ActionBarActivity implements
 		startActivity(intent);
 	}
 
+	/**
+	 *Async task to get profile image from google.
+	 */
 	private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
 		ImageView bmImage;
 
@@ -378,24 +385,20 @@ public class SettingsActivity extends ActionBarActivity implements
 		userID = SyncUser.getUserID(email, personName);
 	}
 
+	/**
+	 *Async task to send user data to web app and get user ID.
+	 */
 	private class HttpAsyncTaskUser extends AsyncTask<String, Void, String> {
 
-		// onPostExecute displays the results of the AsyncTask.
 		@Override
 		protected void onPostExecute(String result) {
 			Log.d("settings", "dataSent");
-			// Insert the user to the DataBase
+
 			if (userID != null) {
-				 System.out.println(userID);
+				System.out.println(userID);
 				User user = new User(email, personName, userID);
-				String isUser = UserManager.getInstance(getBaseContext())
-						.isUser(user);
-				if (isUser.equals("NULL")) {
-					UserManager.getInstance(getBaseContext()).addUser(user);
-				} else {
-					UserManager.getInstance(getBaseContext()).setCurrent(user);
-				}
-				 System.out.println(UserManager.getInstance(getBaseContext()).isUser(user)+"is a user");
+				UserManager.getInstance(getBaseContext()).addUser(user);
+				System.out.println(UserManager.getInstance(getBaseContext()).isUser(user)+"is a user");
 			} else {
 				Log.d("settings", "cannot");
 			}

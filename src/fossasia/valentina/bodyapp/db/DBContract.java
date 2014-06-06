@@ -1,10 +1,16 @@
 package fossasia.valentina.bodyapp.db;
 
+/**
+ *Contains all the constants used as table names and attributes in DB
+ */
 public abstract class DBContract {
 	private static final String TEXT_TYPE = " TEXT";
 	private static final String NUMBER_TYPE = " INTEGER";
 	private static final String COMMA_SEP = ",";
 
+	/**
+	 *Person table
+	 */
 	public static abstract class Person {
 		public static final String TABLE_NAME = "Person";
 		public static final String COLUMN_NAME_ID = "id";
@@ -30,6 +36,9 @@ public abstract class DBContract {
 	
 	}
 
+	/**
+	 *Table user
+	 */
 	public static abstract class User {
 		public static final String TABLE_NAME = "User";
 		public static final String COLUMN_NAME_EMAIL = "email";
@@ -56,6 +65,10 @@ public abstract class DBContract {
 		};
 
 	}
+	
+	/**
+	 *Table measurement
+	 */
 	public static abstract class Measurement {
 		public static final String TABLE_NAME = "Measurement";
 		public static final String COLUMN_NAME_ID = "id";
@@ -130,6 +143,9 @@ public abstract class DBContract {
 		};
 	}
 	
+	/**
+	 *Table delete
+	 */
 	public static abstract class Delete {
 		public static final String TABLE_NAME = "Deletes";
 		public static final String COLUMN_NAME_FILE_ID = "file_id";
