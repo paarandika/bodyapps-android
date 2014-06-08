@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.main;
 
 import java.text.SimpleDateFormat;
@@ -8,24 +13,18 @@ import fossasia.valentina.bodyapp.managers.PersonManager;
 import fossasia.valentina.bodyapp.managers.UserManager;
 import fossasia.valentina.bodyapp.models.Measurement;
 import fossasia.valentina.bodyapp.models.Person;
-import fossasia.valentina.bodyapp.models.User;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.os.Build;
 
 public class CreateActivity extends Activity {
 	private Button btnCreate;
@@ -112,8 +111,12 @@ public class CreateActivity extends Activity {
 		}
 		// System.out.println("boo");
 		person = new Person(email, name, spnGender.getSelectedItemPosition());
-		PersonManager.getInstance(this).addPerson(person);
-		int personID = PersonManager.getInstance(this).getPerson(person);
+		//adds the person to DB and gets his ID
+		int personID=PersonManager.getInstance(this).getPerson(person);
+		if(personID==-1){
+			PersonManager.getInstance(this).addPerson(person);
+			personID = PersonManager.getInstance(this).getPerson(person);
+		}
 		System.out.println(personID);
 		person.setID(personID);
 
@@ -142,6 +145,10 @@ public class CreateActivity extends Activity {
 		return true;
 	}
 
+	/**
+	 * Gets a UUID for measurement
+	 * @return
+	 */
 	public String getID() {
 		UUID uuid = UUID.randomUUID();
 		String randomUUIDString = uuid.toString();

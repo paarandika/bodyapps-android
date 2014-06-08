@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.models;
 
 import java.io.Serializable;

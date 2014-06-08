@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.managers;
 
 import java.util.ArrayList;
@@ -12,8 +17,10 @@ import fossasia.valentina.bodyapp.db.DBContract;
 import fossasia.valentina.bodyapp.db.DatabaseHandler;
 import fossasia.valentina.bodyapp.models.Measurement;
 import fossasia.valentina.bodyapp.models.MeasurementListModel;
-import fossasia.valentina.bodyapp.models.User;
 
+/**
+ *Manages the DB requests to measurements table
+ */
 public class MeasurementManager {
 	private SQLiteDatabase database;
 	private DatabaseHandler dbHandler;

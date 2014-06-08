@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.main;
 
 import java.io.InputStream;
@@ -41,6 +46,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 
+/**
+ *Activity for settings. 
+ *This activity handles user authentication via Google play services and obtains user ID from web application.
+ *Then user gets added to the DB
+ */
 public class SettingsActivity extends ActionBarActivity implements
 		OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
 
@@ -258,13 +268,18 @@ public class SettingsActivity extends ActionBarActivity implements
 
 				
 				Log.d("settings", "here");
+				//creates a new user and check if he exists on db
 				User user = new User(email, personName, userID);
 				String isUser = UserManager.getInstance(getBaseContext())
 						.isUser(user);
+				
 				if (isUser.equals("NULL")) {
+					//if user is not in DB a post goes to web app and gets a ID for user.
+					//Then he will be added to the DB and set as current user.
 					progress.show();
 					new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
 				} else {
+					//if user exists in DB just sets him current user
 					UserManager.getInstance(getBaseContext()).setCurrent(user);
 					userID=isUser;
 				}
@@ -380,6 +395,10 @@ public class SettingsActivity extends ActionBarActivity implements
 		}
 	}
 
+	/**
+	 * Call to syncUser method
+	 * @param url
+	 */
 	public void postUser(String url) {
 
 		userID = SyncUser.getUserID(email, personName);
@@ -397,6 +416,7 @@ public class SettingsActivity extends ActionBarActivity implements
 			if (userID != null) {
 				System.out.println(userID);
 				User user = new User(email, personName, userID);
+				//adds the user to the DB
 				UserManager.getInstance(getBaseContext()).addUser(user);
 				System.out.println(UserManager.getInstance(getBaseContext()).isUser(user)+"is a user");
 			} else {

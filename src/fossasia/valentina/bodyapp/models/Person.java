@@ -1,14 +1,19 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.models;
 
+/**
+ * Model object for person
+ */
 public class Person {
 	private String email;
 	private String name;
 	private int gender;// 1 for male
 	private int ID;
 
-	/**
-	 * Model object for person
-	 */
 	public Person(String email, String name, int gender) {
 		super();
 		this.email = email;

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.managers;
 
 import fossasia.valentina.bodyapp.db.DBContract;
@@ -9,6 +14,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+/**
+ *Manages the DB requests to user table
+ */
 public class UserManager {
 	private SQLiteDatabase database;
 	private DatabaseHandler dbHandler;

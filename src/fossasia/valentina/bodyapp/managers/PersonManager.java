@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.managers;
 
 import android.content.ContentValues;
@@ -8,8 +13,10 @@ import android.util.Log;
 import fossasia.valentina.bodyapp.db.DBContract;
 import fossasia.valentina.bodyapp.db.DatabaseHandler;
 import fossasia.valentina.bodyapp.models.Person;
-import fossasia.valentina.bodyapp.models.User;
 
+/**
+ *Manages the DB requests to person table
+ */
 public class PersonManager {
 	private SQLiteDatabase database;
 	private DatabaseHandler dbHandler;
@@ -26,6 +33,11 @@ public class PersonManager {
 		return PersonManager;
 	}
 	
+	/**
+	 * Gets the person ID from email
+	 * @param person
+	 * @return
+	 */
 	public int getPerson(Person person){
 		Log.d("personmanager", "getPerson");
 		this.database = this.dbHandler.getReadableDatabase();
@@ -45,6 +57,10 @@ public class PersonManager {
 		}
 	}
 	
+	/**
+	 * Adds a person to the DB
+	 * @param person
+	 */
 	public void addPerson(Person person){
 		Log.d("personmanager", "addPerson");
 		Log.d("personmanager", person.getEmail());
@@ -59,6 +75,10 @@ public class PersonManager {
 		database.close();
 	}
 	
+	/**
+	 * deletes person from DB
+	 * @param person
+	 */
 	public void delPerson(Person person) {
 		this.database = this.dbHandler.getWritableDatabase();
 		database.delete(DBContract.Person.TABLE_NAME,

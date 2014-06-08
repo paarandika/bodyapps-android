@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.main;
 
 import java.util.List;
@@ -11,9 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * 
  * Adapter which populates the saved measurements list.
- *
  */
 public class SavedAdapter extends BaseAdapter {
 	private LayoutInflater inflater;

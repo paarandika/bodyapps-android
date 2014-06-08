@@ -28,3 +28,10 @@ Building the project:
 		ii.Download a device to GennyMotion and install Google play services(You can follow this thread: http://stackoverflow.com/questions/20121883/how-to-install-google-play-service-in-the-genymotion-ubuntu-13-04-currently-i)  
 		iii. Log in to device using a Google account.  
 		iv. Run the app while virtual device is on. It will automatically choose the device.  
+  
+**NOTE: Web application Running in the localhost and listning to port 8020 is essential for app to run properly(for iteration 1:now only).**  
+And you can change the IP and URL according to your system by changing:  
+URL in SyncUser class(line:24)  
+URL in SyncMeasurement class(line: 19)  
+parameter in SettingsActivity class (line:280)  
+parameter in MeasurementActivity class (line: 166)

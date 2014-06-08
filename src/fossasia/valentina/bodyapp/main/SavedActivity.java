@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.main;
 
 import java.io.Serializable;
@@ -25,11 +30,8 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * 
- * Shows a list of saved measurements in the database.
- * 
+ * Shows a list of saved measurements in the database. 
  */
-
 public class SavedActivity extends Activity {
 
 	@Override

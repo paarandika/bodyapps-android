@@ -1,14 +1,12 @@
+/*
+ * Copyright (c) 2014, Fashiontec (http://fashiontec.org)
+ * Licensed under LGPL, Version 3
+ */
+
 package fossasia.valentina.bodyapp.sync;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import fossasia.valentina.bodyapp.models.User;
-
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
 
 /**
  * Handles the Sync of users
@@ -20,7 +18,7 @@ public class SyncUser extends Sync {
 	static String result;
 
 	/**
-	 * Get the user ID of the given user from web app
+	 * Get the user ID of the given user from web application
 	 * 
 	 * @param email
 	 * @param name
