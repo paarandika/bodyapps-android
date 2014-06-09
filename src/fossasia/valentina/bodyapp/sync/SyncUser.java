@@ -15,7 +15,10 @@ public class SyncUser extends Sync {
 
 	private static String json;
 	private static final String URL = "http://192.168.1.2:8020/user";
-	static String result;
+	private static String result;
+	private static final int CON_TIMEOUT=5000;
+	private static final int SOC_TIMEOUT=5000;
+	
 
 	/**
 	 * Get the user ID of the given user from web application
@@ -36,7 +39,7 @@ public class SyncUser extends Sync {
 			e.printStackTrace();
 		}
 
-		result = POST(URL, json);
+		result = POST(URL, json, CON_TIMEOUT,SOC_TIMEOUT);
 		return result;
 	}
 

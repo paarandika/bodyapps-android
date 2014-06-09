@@ -15,6 +15,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import android.util.Log;
 
@@ -24,19 +27,22 @@ import android.util.Log;
 public class Sync {
 	
 	/**
-	 * Meathod which makes all the POST calls
+	 * Method which makes all the POST calls
 	 * 
 	 * @param url
 	 * @param json
 	 * @return
 	 */
-	public static String POST(String url, String json) {
+	public static String POST(String url, String json, int conTimeOut, int socTimeOut) {
 
 		InputStream inputStream = null;
 		String result = "";
 		try {
 
-			HttpClient httpclient = new DefaultHttpClient();
+			HttpParams httpParameters = new BasicHttpParams();
+			HttpConnectionParams.setConnectionTimeout(httpParameters,conTimeOut);
+			HttpConnectionParams.setSoTimeout(httpParameters, socTimeOut);
+			HttpClient httpclient = new DefaultHttpClient(httpParameters);
 			HttpPost httpPost = new HttpPost(url);
 			StringEntity se = new StringEntity(json);
 			httpPost.setEntity(se);

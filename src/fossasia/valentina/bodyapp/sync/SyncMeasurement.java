@@ -17,7 +17,9 @@ import fossasia.valentina.bodyapp.models.Person;
 public class SyncMeasurement extends Sync {
 	private static String json;
 	private static final String URL = "http://192.168.1.2:8020/user/measurements";
-	static String result;
+	private static String result;
+	private static final int CON_TIMEOUT=10000;
+	private static final int SOC_TIMEOUT=20000;
 
 	/**
 	 * Converts measurement object to JSON string
@@ -68,7 +70,7 @@ public class SyncMeasurement extends Sync {
 			e.printStackTrace();
 		}
 
-		result = POST(URL, json);
+		result = POST(URL, json, CON_TIMEOUT, SOC_TIMEOUT);
 		return result;
 	}
 

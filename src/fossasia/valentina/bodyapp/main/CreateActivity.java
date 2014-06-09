@@ -15,8 +15,12 @@ import fossasia.valentina.bodyapp.models.Measurement;
 import fossasia.valentina.bodyapp.models.Person;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +38,8 @@ public class CreateActivity extends Activity {
 	private TextView txtName;
 	private Person person;
 	private Measurement measurement;
+	Context context;
+	private static AlertDialog alertDialog; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +52,10 @@ public class CreateActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (setData()) {
-					//System.out.println("here");
-					Intent intent = new Intent(CreateActivity.this,
-							MeasurementActivity.class);
-					intent.putExtra("measurement", measurement);
-					startActivity(intent);
-					Activity host=(Activity)v.getContext();
-					host.finish();
+					// System.out.println("here");
+					
+				}else{
+					
 				}
 
 			}
@@ -69,6 +72,7 @@ public class CreateActivity extends Activity {
 				.createFromResource(this, R.array.gender_array,
 						android.R.layout.simple_spinner_item);
 		spnGender.setAdapter(genderAdapter);
+		context=this;
 
 	}
 
@@ -104,16 +108,19 @@ public class CreateActivity extends Activity {
 			return false;
 		}
 		if (!txtName.getText().toString().equals("")) {
-			System.out.println("boo2");
 			name = txtName.getText().toString();
 		} else {
 			return false;
 		}
-		// System.out.println("boo");
+		setMeasurement(name, email);
+		return true;
+	}
+
+	private void setMeasurement(String name, String email) {
 		person = new Person(email, name, spnGender.getSelectedItemPosition());
-		//adds the person to DB and gets his ID
-		int personID=PersonManager.getInstance(this).getPerson(person);
-		if(personID==-1){
+		// adds the person to DB and gets his ID
+		int personID = PersonManager.getInstance(this).getPerson(person);
+		if (personID == -1) {
 			PersonManager.getInstance(this).addPerson(person);
 			personID = PersonManager.getInstance(this).getPerson(person);
 		}
@@ -121,14 +128,14 @@ public class CreateActivity extends Activity {
 		person.setID(personID);
 
 		String userID = UserManager.getInstance(this).getCurrent();
+		System.out.println(userID + "uID");
 		if (userID != null) {
 			System.out.println(userID + " createActivity");
 
 			measurement = new Measurement(getID(), userID, person.getID(),
 					spnUnits.getSelectedItemPosition());
-
 			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
-			String dateText="";
+			String dateText = "";
 			try {
 				Date date = new Date();
 				dateText = dateformat.format(date);
@@ -136,17 +143,41 @@ public class CreateActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			measurement.setCreated(dateText);
+			
+			if (userID.equals("NoID")) {
+				dialog("Not Connected","You won't be able to sync until you connect to Web App");
+			}else{
+				closer();
+			}
 
 		} else {
-			return false;
+			System.out.println("CA else");
+			Log.d("CreateActivity", "ID==''");
+			measurement = new Measurement(getID(), "NoUser", person.getID(),
+					spnUnits.getSelectedItemPosition());
+
+			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
+			String dateText = "";
+			try {
+				Date date = new Date();
+				dateText = dateformat.format(date);
+				System.out.println("Current Date Time 2: " + dateText);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			measurement.setCreated(dateText);
+			dialog("No user","Currently no user in app. All measurements will be added to the account of the user who logs in next");
 		}
-		return true;
+		
+
 	}
 
 	/**
 	 * Gets a UUID for measurement
+	 * 
 	 * @return
 	 */
 	public String getID() {
@@ -154,6 +185,35 @@ public class CreateActivity extends Activity {
 		String randomUUIDString = uuid.toString();
 		System.out.println("Random UUID String = " + randomUUIDString);
 		return randomUUIDString;
+	}
+
+	public void closer() {
+		System.out.println("close");
+		Intent intent = new Intent(CreateActivity.this,
+				MeasurementActivity.class);
+		intent.putExtra("measurement", measurement);
+		startActivity(intent);
+		Activity host = (Activity) context;
+		host.finish();
+	}
+	public void dialog(String title, String message){
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(title)
+				.setMessage(message)
+				.setIcon(R.drawable.warning)
+				.setCancelable(false)
+				.setNegativeButton("Close",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int id) {
+								dialog.cancel();
+								closer();
+							}
+						});
+		
+		alertDialog = builder.create();
+		alertDialog.show();
 	}
 
 }

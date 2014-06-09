@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- *Manages the DB requests to user table
+ * Manages the DB requests to user table
  */
 public class UserManager {
 	private SQLiteDatabase database;
@@ -60,7 +60,7 @@ public class UserManager {
 			database.close();
 			return out;
 		} else {
-			return "NULL";
+			return null;
 		}
 	}
 
@@ -91,8 +91,7 @@ public class UserManager {
 			cursor.close();
 			database.close();
 			return out;
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -105,4 +104,16 @@ public class UserManager {
 		database.close();
 	}
 
+	public void setID(User user) {
+		Log.d("usermanager", "setID");
+		String userID = user.getId();
+
+		this.database = this.dbHandler.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DBContract.User.COLUMN_NAME_ID, userID);
+		database.update(DBContract.User.TABLE_NAME, values,
+				DBContract.User.COLUMN_NAME_EMAIL + "='" + user.getEmail()
+						+ "'", null);
+		database.close();
+	}
 }

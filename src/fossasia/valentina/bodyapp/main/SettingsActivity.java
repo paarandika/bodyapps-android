@@ -25,7 +25,9 @@ import fossasia.valentina.bodyapp.sync.SyncUser;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.graphics.Bitmap;
@@ -47,9 +49,9 @@ import android.widget.Toast;
 import android.os.Build;
 
 /**
- *Activity for settings. 
- *This activity handles user authentication via Google play services and obtains user ID from web application.
- *Then user gets added to the DB
+ * Activity for settings. This activity handles user authentication via Google
+ * play services and obtains user ID from web application. Then user gets added
+ * to the DB
  */
 public class SettingsActivity extends ActionBarActivity implements
 		OnClickListener, ConnectionCallbacks, OnConnectionFailedListener {
@@ -77,11 +79,13 @@ public class SettingsActivity extends ActionBarActivity implements
 	private ImageView imgProfilePic;
 	private TextView txtName;
 	private TextView txtEmail;
+	private TextView txtConnected;
 	private LinearLayout llProfileLayout;
 	private static ProgressDialog progress;
+	private static AlertDialog alertDialog;
 	private String email;
 	private String personName;
-	private String userID=null;
+	private String userID = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,7 @@ public class SettingsActivity extends ActionBarActivity implements
 		imgProfilePic = (ImageView) findViewById(R.id.settings_img_profile);
 		txtName = (TextView) findViewById(R.id.settings_txt_name);
 		txtEmail = (TextView) findViewById(R.id.settings_txt_email);
+		txtConnected = (TextView) findViewById(R.id.settings_txt_connected);
 		llProfileLayout = (LinearLayout) findViewById(R.id.settings_layout);
 
 		// Button click listeners
@@ -109,6 +114,19 @@ public class SettingsActivity extends ActionBarActivity implements
 		progress.setTitle("Loading");
 		progress.setMessage("Wait while loading...");
 		progress.setCanceledOnTouchOutside(false);
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Error Connecting")
+				.setMessage("Error occured while connecting to Web application")
+				.setIcon(R.drawable.warning)
+				.setCancelable(false)
+				.setNegativeButton("Close",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+		alertDialog = builder.create();
 	}
 
 	@Override
@@ -266,24 +284,6 @@ public class SettingsActivity extends ActionBarActivity implements
 				txtName.setText(personName);
 				txtEmail.setText(email);
 
-				
-				Log.d("settings", "here");
-				//creates a new user and check if he exists on db
-				User user = new User(email, personName, userID);
-				String isUser = UserManager.getInstance(getBaseContext())
-						.isUser(user);
-				
-				if (isUser.equals("NULL")) {
-					//if user is not in DB a post goes to web app and gets a ID for user.
-					//Then he will be added to the DB and set as current user.
-					progress.show();
-					new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
-				} else {
-					//if user exists in DB just sets him current user
-					UserManager.getInstance(getBaseContext()).setCurrent(user);
-					userID=isUser;
-				}
-
 				personPhotoUrl = personPhotoUrl.substring(0,
 						personPhotoUrl.length() - 2)
 						+ PROFILE_PIC_SIZE;
@@ -344,7 +344,30 @@ public class SettingsActivity extends ActionBarActivity implements
 
 		// Get user's information
 		getProfileInformation();
+		Log.d("settings", "here");
+		// creates a new user and check if he exists on db
+		User user = new User(email, personName, userID);
+		String isUser = UserManager.getInstance(getBaseContext()).isUser(user);
 
+		if (isUser == null) {
+			// if user is not in DB a post goes to web app and gets a ID for
+			// user.
+			// Then he will be added to the DB and set as current user.
+			progress.show();
+			new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
+		} else {
+			
+			if (isUser.equals("NoID")) {
+				// if user exists in DB and doesn't have a ID, try to get ID
+				progress.show();
+				new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
+			} else {
+				// if user exists in DB and has a ID just sets him current user
+				UserManager.getInstance(getBaseContext()).setCurrent(user);
+				txtConnected.setText("User connected");
+				userID = isUser;
+			}
+		}
 		// Update the UI after signin
 		updateUI(true);
 
@@ -368,7 +391,7 @@ public class SettingsActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 *Async task to get profile image from google.
+	 * Async task to get profile image from google.
 	 */
 	private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
 		ImageView bmImage;
@@ -397,6 +420,7 @@ public class SettingsActivity extends ActionBarActivity implements
 
 	/**
 	 * Call to syncUser method
+	 * 
 	 * @param url
 	 */
 	public void postUser(String url) {
@@ -405,24 +429,45 @@ public class SettingsActivity extends ActionBarActivity implements
 	}
 
 	/**
-	 *Async task to send user data to web app and get user ID.
+	 * Async task to send user data to web app and get user ID.
 	 */
 	private class HttpAsyncTaskUser extends AsyncTask<String, Void, String> {
 
 		@Override
 		protected void onPostExecute(String result) {
 			Log.d("settings", "dataSent");
+			System.out.println(userID+"ID check");
 
-			if (userID != null) {
-				System.out.println(userID);
+			if (userID != "") {
+				
 				User user = new User(email, personName, userID);
-				//adds the user to the DB
-				UserManager.getInstance(getBaseContext()).addUser(user);
-				System.out.println(UserManager.getInstance(getBaseContext()).isUser(user)+"is a user");
+				String isUser = UserManager.getInstance(getBaseContext())
+						.isUser(user);
+				if (isUser==null) {
+					// adds the user to the DB
+					UserManager.getInstance(getBaseContext()).addUser(user);
+					System.out.println(UserManager
+							.getInstance(getBaseContext()).isUser(user)
+							+ "is a user");
+					
+				} else {
+					UserManager.getInstance(getBaseContext()).setID(user);
+				}
+				txtConnected.setText("User connected");
 			} else {
 				Log.d("settings", "cannot");
+				// adds the user to the DB, but without the ID if the user
+				// currently not on db
+				User user = new User(email, personName, "NoID");
+				String isUser = UserManager.getInstance(getBaseContext())
+						.isUser(user);
+				if (isUser==null) {
+					UserManager.getInstance(getBaseContext()).addUser(user);
+				}
+				alertDialog.show();
+				txtConnected.setText("User not connected");
 			}
-			 progress.dismiss();
+			progress.dismiss();
 		}
 
 		@Override
