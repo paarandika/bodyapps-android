@@ -13,7 +13,14 @@
              <stroke android:width="1dip" android:color="#FFFFFF" />
              <solid  android:color="#4ea0ab"/>       
          </shape>
-     </item>  
+     </item>
+     <item android:state_enabled="false">
+         <shape android:shape="rectangle"  >
+             <corners android:radius="8dip" />
+             <stroke android:width="1dip" android:color="#FFFFFF" />
+             <solid  android:color="#B8A68C"/>       
+         </shape>
+     </item>    
     <item >
         <shape android:shape="rectangle"  >
              <corners android:radius="8dip" />

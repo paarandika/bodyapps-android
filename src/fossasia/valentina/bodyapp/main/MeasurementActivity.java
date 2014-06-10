@@ -181,15 +181,18 @@ public class MeasurementActivity extends Activity {
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
 			
-			View measurement = getActivity().findViewById(
+			View measurementView = getActivity().findViewById(
 					R.id.measurement_frame);
-			dualPane = measurement != null
-					&& measurement.getVisibility() == View.VISIBLE;
+			dualPane = measurementView != null
+					&& measurementView.getVisibility() == View.VISIBLE;
 			
 			if (dualPane) {
 				viewSet(getView());
 			}
-
+			
+			if(measurement.getUserID().equals("NoID")||measurement.getUserID().equals("NoUser")){
+				btnSaveSync.setEnabled(false);
+			}
 		}
 
 		/**
