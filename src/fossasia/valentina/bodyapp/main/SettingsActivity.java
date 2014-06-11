@@ -18,6 +18,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+import fossasia.valentina.bodyapp.managers.MeasurementManager;
 import fossasia.valentina.bodyapp.managers.UserManager;
 import fossasia.valentina.bodyapp.models.User;
 import fossasia.valentina.bodyapp.sync.SyncUser;
@@ -83,6 +84,7 @@ public class SettingsActivity extends ActionBarActivity implements
 	private LinearLayout llProfileLayout;
 	private static ProgressDialog progress;
 	private static AlertDialog alertDialog;
+	private static AlertDialog alertDialog2;
 	private String email;
 	private String personName;
 	private String userID = null;
@@ -127,6 +129,19 @@ public class SettingsActivity extends ActionBarActivity implements
 							}
 						});
 		alertDialog = builder.create();
+
+		AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+		builder.setTitle("Error Getting personal info")
+				.setMessage("Could not get personal info from Google")
+				.setIcon(R.drawable.warning)
+				.setCancelable(false)
+				.setNegativeButton("Close",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+		alertDialog2 = builder2.create();
 	}
 
 	@Override
@@ -293,9 +308,13 @@ public class SettingsActivity extends ActionBarActivity implements
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"Person information is null", Toast.LENGTH_LONG).show();
+				email = null;
+				personName = null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			email = null;
+			personName = null;
 		}
 	}
 
@@ -345,31 +364,40 @@ public class SettingsActivity extends ActionBarActivity implements
 		// Get user's information
 		getProfileInformation();
 		Log.d("settings", "here");
-		// creates a new user and check if he exists on db
-		User user = new User(email, personName, userID);
-		String isUser = UserManager.getInstance(getBaseContext()).isUser(user);
 
-		if (isUser == null) {
-			// if user is not in DB a post goes to web app and gets a ID for
-			// user.
-			// Then he will be added to the DB and set as current user.
-			progress.show();
-			new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
-		} else {
+		if (email != null && personName != null) {
 			
-			if (isUser.equals("NoID")) {
-				// if user exists in DB and doesn't have a ID, try to get ID
+			// creates a new user and check if he exists on db
+			User user = new User(email, personName, userID);
+			String isUser = UserManager.getInstance(getBaseContext()).isUser(
+					user);
+
+			if (isUser == null) {
+				// if user is not in DB a post goes to web app and gets a ID for
+				// user.
+				// Then he will be added to the DB and set as current user.
 				progress.show();
 				new HttpAsyncTaskUser().execute("http://192.168.1.2:8020/user");
 			} else {
-				// if user exists in DB and has a ID just sets him current user
-				UserManager.getInstance(getBaseContext()).setCurrent(user);
-				txtConnected.setText("User connected");
-				userID = isUser;
+
+				if (isUser.equals("NoID")) {
+					// if user exists in DB and doesn't have a ID, try to get ID
+					progress.show();
+					new HttpAsyncTaskUser()
+							.execute("http://192.168.1.2:8020/user");
+				} else {
+					// if user exists in DB and has a ID just sets him current
+					// user
+					UserManager.getInstance(getBaseContext()).setCurrent(user);
+					txtConnected.setText("User connected");
+					userID = isUser;
+				}
 			}
+			// Update the UI after signin
+			updateUI(true);
+		} else {
+			alertDialog2.show();
 		}
-		// Update the UI after signin
-		updateUI(true);
 
 	}
 
@@ -436,23 +464,25 @@ public class SettingsActivity extends ActionBarActivity implements
 		@Override
 		protected void onPostExecute(String result) {
 			Log.d("settings", "dataSent");
-			System.out.println(userID+"ID check");
+			System.out.println(userID + "ID check");
 
 			if (userID != "") {
-				
+
 				User user = new User(email, personName, userID);
 				String isUser = UserManager.getInstance(getBaseContext())
 						.isUser(user);
-				if (isUser==null) {
+				if (isUser == null) {
 					// adds the user to the DB
 					UserManager.getInstance(getBaseContext()).addUser(user);
 					System.out.println(UserManager
 							.getInstance(getBaseContext()).isUser(user)
 							+ "is a user");
-					
+
 				} else {
 					UserManager.getInstance(getBaseContext()).setID(user);
 				}
+				//if user added measurements before sign in, those measurements will be added to the signed in user
+				MeasurementManager.getInstance(getBaseContext()).setUserID(userID);
 				txtConnected.setText("User connected");
 			} else {
 				Log.d("settings", "cannot");
@@ -461,7 +491,7 @@ public class SettingsActivity extends ActionBarActivity implements
 				User user = new User(email, personName, "NoID");
 				String isUser = UserManager.getInstance(getBaseContext())
 						.isUser(user);
-				if (isUser==null) {
+				if (isUser == null) {
 					UserManager.getInstance(getBaseContext()).addUser(user);
 				}
 				alertDialog.show();

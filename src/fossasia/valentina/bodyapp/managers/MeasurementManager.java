@@ -17,6 +17,7 @@ import fossasia.valentina.bodyapp.db.DBContract;
 import fossasia.valentina.bodyapp.db.DatabaseHandler;
 import fossasia.valentina.bodyapp.models.Measurement;
 import fossasia.valentina.bodyapp.models.MeasurementListModel;
+import fossasia.valentina.bodyapp.models.User;
 
 /**
  *Manages the DB requests to measurements table
@@ -115,4 +116,17 @@ public class MeasurementManager {
 	    }
 	    return measurementList;
 	}
+	
+	public void setUserID(String ID) {
+		Log.d("measurementManager", "setUserID");
+
+			this.database = this.dbHandler.getWritableDatabase();
+			ContentValues values = new ContentValues();
+			values.put(DBContract.Measurement.COLUMN_NAME_USER_ID, ID);
+			database.update(DBContract.Measurement.TABLE_NAME, values,
+					DBContract.Measurement.COLUMN_NAME_USER_ID + "='" + "NoID" + "'", null);
+			database.update(DBContract.Measurement.TABLE_NAME, values,
+					DBContract.Measurement.COLUMN_NAME_USER_ID + "='" + "NoUser" + "'", null);
+			database.close();
+		}
 }
