@@ -30,7 +30,7 @@ Building the project:
 		iv. Run the app while virtual device is on. It will automatically choose the device.  
 
 **Creating Google API project**  
-To get information from Google API it is required to create project in Google developer console
+To get information from Google API it is required to create project in Google developer console.  
 1. Go to Google developer console(https://console.developers.google.com/project?authuser=0) and go to projects tab and click on create project.  
 2. Give a project name and create a project.  
 3. Then go in to the project and go to APIs under APIs & auth tab.  
