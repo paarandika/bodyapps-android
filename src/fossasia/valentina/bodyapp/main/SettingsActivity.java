@@ -197,6 +197,7 @@ public class SettingsActivity extends ActionBarActivity implements
 			Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 			mGoogleApiClient.disconnect();
 			mGoogleApiClient.connect();
+			UserManager.getInstance(getBaseContext()).unsetCurrent();
 			updateUI(false);
 		}
 	}
@@ -218,7 +219,7 @@ public class SettingsActivity extends ActionBarActivity implements
 
 					});
 		}
-
+		UserManager.getInstance(getBaseContext()).unsetCurrent();
 		reload();
 	}
 
@@ -480,6 +481,7 @@ public class SettingsActivity extends ActionBarActivity implements
 
 				} else {
 					UserManager.getInstance(getBaseContext()).setID(user);
+					UserManager.getInstance(getBaseContext()).setCurrent(user);
 				}
 				//if user added measurements before sign in, those measurements will be added to the signed in user
 				MeasurementManager.getInstance(getBaseContext()).setUserID(userID);
@@ -493,7 +495,10 @@ public class SettingsActivity extends ActionBarActivity implements
 						.isUser(user);
 				if (isUser == null) {
 					UserManager.getInstance(getBaseContext()).addUser(user);
+					MeasurementManager.getInstance(getBaseContext()).setUserID("NoID");
 				}
+				UserManager.getInstance(getBaseContext()).setCurrent(user);
+				MeasurementManager.getInstance(getBaseContext()).setUserID("NoID");
 				alertDialog.show();
 				txtConnected.setText("User not connected");
 			}

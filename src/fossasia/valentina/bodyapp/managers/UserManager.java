@@ -66,15 +66,13 @@ public class UserManager {
 
 	public void setCurrent(User user) {
 		Log.d("usermanager", "setCurrent");
-		String userID = isUser(user);
-		if (!userID.equals("NULL")) {
-			this.database = this.dbHandler.getWritableDatabase();
-			ContentValues values = new ContentValues();
-			values.put(DBContract.User.COLUMN_NAME_IS_CURRENT, 1);
-			database.update(DBContract.User.TABLE_NAME, values,
-					DBContract.User.COLUMN_NAME_ID + "='" + userID + "'", null);
-			database.close();
-		}
+		this.database = this.dbHandler.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DBContract.User.COLUMN_NAME_IS_CURRENT, 1);
+		database.update(DBContract.User.TABLE_NAME, values,
+				DBContract.User.COLUMN_NAME_EMAIL + "='" + user.getEmail()
+						+ "'", null);
+		database.close();
 
 	}
 
@@ -115,5 +113,35 @@ public class UserManager {
 				DBContract.User.COLUMN_NAME_EMAIL + "='" + user.getEmail()
 						+ "'", null);
 		database.close();
+	}
+
+	public void unsetCurrent() {
+		Log.d("usermanager", "unsetCurrent");
+		String email = getCurrentEmail();
+		this.database = this.dbHandler.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(DBContract.User.COLUMN_NAME_IS_CURRENT, 0);
+		database.update(DBContract.User.TABLE_NAME, values,
+				DBContract.User.COLUMN_NAME_EMAIL + "='" + email + "'", null);
+		database.close();
+	}
+
+	public String getCurrentEmail() {
+		Log.d("usermanager", "getCurrentEmail");
+		this.database = this.dbHandler.getReadableDatabase();
+		Cursor cursor = database.query(DBContract.User.TABLE_NAME,
+				new String[] { DBContract.User.COLUMN_NAME_EMAIL },
+				DBContract.User.COLUMN_NAME_IS_CURRENT + " =" + 1, null, null,
+				null, null);
+
+		if (cursor.moveToFirst()) {
+
+			String out = cursor.getString(0);
+			cursor.close();
+			database.close();
+			return out;
+		} else {
+			return null;
+		}
 	}
 }
