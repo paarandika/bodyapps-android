@@ -151,7 +151,8 @@ public class MeasurementActivity extends Activity {
 				}
 			});
 
-			btnSaveSync = (Button) rootView.findViewById(R.id.measurement_btn_save_sync);
+			btnSaveSync = (Button) rootView
+					.findViewById(R.id.measurement_btn_save_sync);
 			btnSaveSync.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -180,23 +181,25 @@ public class MeasurementActivity extends Activity {
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
-			
+
 			View measurementView = getActivity().findViewById(
 					R.id.measurement_frame);
 			dualPane = measurementView != null
 					&& measurementView.getVisibility() == View.VISIBLE;
-			
+
 			if (dualPane) {
 				viewSet(getView());
 			}
-			
-			if(measurement.getUserID().equals("NoID")||measurement.getUserID().equals("NoUser")){
+
+			if (measurement.getUserID().equals("NoID")
+					|| measurement.getUserID().equals("NoUser")) {
 				btnSaveSync.setEnabled(false);
 			}
 		}
 
 		/**
 		 * Sets the view according to the orientation of the device
+		 * 
 		 * @param view
 		 */
 		public void viewSet(View view) {
@@ -224,6 +227,7 @@ public class MeasurementActivity extends Activity {
 
 		/**
 		 * Choose which fragment to load according to the given index.
+		 * 
 		 * @param index
 		 * @return
 		 */
@@ -274,12 +278,13 @@ public class MeasurementActivity extends Activity {
 		@Override
 		public void onSaveInstanceState(Bundle outState) {
 			super.onSaveInstanceState(outState);
-			//saves the shown index
+			// saves the shown index
 			outState.putInt("shownIndex", shownIndex);
 		}
 
 		/**
 		 * Saves the measurement to the database
+		 * 
 		 * @param context
 		 * @return
 		 */
@@ -291,9 +296,15 @@ public class MeasurementActivity extends Activity {
 	}
 
 	/**
-	 * Supporting activity to load measurement group fragments when device in portrait mode
+	 * Supporting activity to load measurement group fragments when device in
+	 * portrait mode
 	 */
 	public static class ItemActivity extends Activity {
+
+		Button btnPrev;
+		Button btnNxt;
+		private int extra;
+		private Fragment fragment;
 
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -304,14 +315,46 @@ public class MeasurementActivity extends Activity {
 				return;
 			}
 
-			final int extra = (Integer) this.getIntent().getSerializableExtra(
-					"item");
-			Fragment fragment;
+			extra = (Integer) this.getIntent().getSerializableExtra("item");
+
 			fragment = GridFragment.chooseView(extra);
 			if (savedInstanceState == null) {
 				getFragmentManager().beginTransaction()
 						.add(R.id.item_container, fragment).commit();
 			}
+
+			btnPrev = (Button) findViewById(R.id.item_btn_prev);
+			btnPrev.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (extra > 0) {
+						extra -= 1;
+					} else {
+						extra = 11;
+					}
+					fragment = GridFragment.chooseView(extra);
+					getFragmentManager().beginTransaction()
+							.replace(R.id.item_container, fragment).commit();
+				}
+			});
+
+			btnNxt = (Button) findViewById(R.id.item_btn_next);
+			btnNxt.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (extra < 11) {
+						extra += 1;
+					} else {
+						extra = 0;
+					}
+					fragment = GridFragment.chooseView(extra);
+					getFragmentManager().beginTransaction()
+							.replace(R.id.item_container, fragment).commit();
+				}
+			});
+
 		}
 
 		@Override
@@ -338,9 +381,9 @@ public class MeasurementActivity extends Activity {
 	}
 
 	/**
-	 *Fragments for measurement groups
+	 * Fragments for measurement groups
 	 */
-	
+
 	public static class Head extends Fragment {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
@@ -608,7 +651,7 @@ public class MeasurementActivity extends Activity {
 	}
 
 	/**
-	 *Async task to send measurement to web application
+	 * Async task to send measurement to web application
 	 */
 	private static class HttpAsyncTaskMeasurement extends
 			AsyncTask<String, Void, String> {
