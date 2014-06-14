@@ -69,8 +69,10 @@ public class SyncMeasurement extends Sync {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		SyncMeasurement sm= new SyncMeasurement();
 
-		result = POST(URL, json, CON_TIMEOUT, SOC_TIMEOUT);
+		result = sm.POST(URL, json, CON_TIMEOUT, SOC_TIMEOUT);
 		return result;
 	}
 

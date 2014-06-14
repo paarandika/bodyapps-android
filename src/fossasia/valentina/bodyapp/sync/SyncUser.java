@@ -5,6 +5,11 @@
 
 package fossasia.valentina.bodyapp.sync;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,9 +43,38 @@ public class SyncUser extends Sync {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		
+		SyncUser su=new SyncUser();
 
-		result = POST(URL, json, CON_TIMEOUT,SOC_TIMEOUT);
+		result = su.POST(URL, json, CON_TIMEOUT,SOC_TIMEOUT);
 		return result;
 	}
+	
+	@Override
+	public String convertInputStreamToString(InputStream inputStream)
+			throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(
+				new InputStreamReader(inputStream));
+		String line = "";
+		String result = "";
+		while ((line = bufferedReader.readLine()) != null)
+			result += line;
+
+		inputStream.close();
+		result = result.replaceAll("\"", "");
+		JSONObject jObject;
+		String out=null;
+		try {
+			jObject = new JSONObject(result);
+			out= jObject.getString("user_id");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return out;
+
+	}
+	
 
 }

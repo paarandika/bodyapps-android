@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight=".5"
-                android:text="Previouse"
+                android:text="Previous"
                 android:textColor="@drawable/btn_txt" />
 
             <Button

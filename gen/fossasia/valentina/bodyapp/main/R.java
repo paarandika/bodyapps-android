@@ -1381,10 +1381,11 @@ containing a value of this type.
         public static final int powered_by_google_dark=0x7f020082;
         public static final int powered_by_google_light=0x7f020083;
         public static final int pro_pic=0x7f020084;
-        public static final int saved_list_selector=0x7f020085;
-        public static final int shoulders=0x7f020086;
-        public static final int trunk=0x7f020087;
-        public static final int warning=0x7f020088;
+        public static final int round_corner=0x7f020085;
+        public static final int saved_list_selector=0x7f020086;
+        public static final int shoulders=0x7f020087;
+        public static final int trunk=0x7f020088;
+        public static final int warning=0x7f020089;
     }
     public static final class id {
         public static final int across_back_shoulder_width=0x7f050087;
@@ -1592,17 +1593,18 @@ containing a value of this type.
         public static final int fragment_measurement=0x7f030021;
         public static final int fragment_saved=0x7f030022;
         public static final int fragment_view_saved=0x7f030023;
-        public static final int hand=0x7f030024;
-        public static final int head=0x7f030025;
-        public static final int heights=0x7f030026;
-        public static final int hip_and_waist=0x7f030027;
-        public static final int leg=0x7f030028;
-        public static final int neck=0x7f030029;
-        public static final int pics=0x7f03002a;
-        public static final int saved_tab=0x7f03002b;
-        public static final int shoulder=0x7f03002c;
-        public static final int support_simple_spinner_dropdown_item=0x7f03002d;
-        public static final int trunk=0x7f03002e;
+        public static final int grid_cell=0x7f030024;
+        public static final int hand=0x7f030025;
+        public static final int head=0x7f030026;
+        public static final int heights=0x7f030027;
+        public static final int hip_and_waist=0x7f030028;
+        public static final int leg=0x7f030029;
+        public static final int neck=0x7f03002a;
+        public static final int pics=0x7f03002b;
+        public static final int saved_tab=0x7f03002c;
+        public static final int shoulder=0x7f03002d;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002e;
+        public static final int trunk=0x7f03002f;
     }
     public static final class menu {
         public static final int create=0x7f0d0000;

@@ -46,6 +46,22 @@ public class MeasurementActivity extends Activity {
 	private static String mID;
 	private static Context context;
 	private static ProgressDialog progress;
+	private static GridView gridView;
+
+	private final static String HEAD_FILL = "/0";
+	private final static String NECK_FILL = "/1";
+	private final static String SHOULDER_FILL = "/3";
+	private final static String CHEST_FILL = "/1";
+	private final static String ARM_FILL = "/4";
+	private final static String HAND_FILL = "/0";
+	private final static String HIP_AND_WAIST_FILL = "/2";
+	private final static String LEG_FILL = "/0";
+	private final static String FOOT_FILL = "/0";
+	private final static String TRUNK_FILL = "/0";
+	private final static String HEIGHTS_FILL = "/2";
+	private final static String PICS_FILL = "/3";
+	private static String[] filledFields = { "0/0", "0/1", "0/3", "0/1", "0/4",
+			"0/0", "0/2", "0/0", "0/0", "0/0", "0/2", "0/3" };
 
 	private static EditText mid_neck_girth;
 	private static EditText bust_girth;
@@ -61,14 +77,28 @@ public class MeasurementActivity extends Activity {
 	private static EditText hip_height;
 	private static EditText wrist_girth;
 
+	// Constants to separate measurement fragments at switch
+	private final static int HEAD = 0;
+	private final static int NECK = 1;
+	private final static int SHOULDER = 2;
+	private final static int CHEST = 3;
+	private final static int ARM = 4;
+	private final static int HAND = 5;
+	private final static int HIP_AND_WAIST = 6;
+	private final static int LEG = 7;
+	private final static int FOOT = 8;
+	private final static int TRUNK = 9;
+	private final static int HEIGHTS = 10;
+	private final static int PICS = 11;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_measurement);
 		final Serializable extra = this.getIntent().getSerializableExtra(
 				"measurement");
 		measurement = (Measurement) extra;
-
+		setContentView(R.layout.activity_measurement);
+		
 	}
 
 	@Override
@@ -99,20 +129,6 @@ public class MeasurementActivity extends Activity {
 		Boolean dualPane;// gets true if the device is on horizontal mode
 		int shownIndex = 0;// gets the index of shown measurement set
 
-		// Constants to separate measurement fragments at switch
-		final static int HEAD = 0;
-		final static int NECK = 1;
-		final static int SHOULDER = 2;
-		final static int CHEST = 3;
-		final static int ARM = 4;
-		final static int HAND = 5;
-		final static int HIP_AND_WAIST = 6;
-		final static int LEG = 7;
-		final static int FOOT = 8;
-		final static int TRUNK = 9;
-		final static int HEIGHTS = 10;
-		final static int PICS = 11;
-
 		private Button btnSave;
 		private Button btnSaveSync;
 
@@ -121,9 +137,11 @@ public class MeasurementActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_measurement,
 					container, false);
-			GridView gridView = (GridView) rootView
-					.findViewById(R.id.grid_view);
-			gridView.setAdapter(new GridAdapter(rootView.getContext()));
+			gridView = (GridView) rootView.findViewById(R.id.grid_view);
+			filledSet();
+			GridAdapter ga=new GridAdapter(rootView.getContext());
+			ga.result=filledFields;
+			gridView.setAdapter(ga);
 
 			// Restore last state for checked position
 			if (savedInstanceState != null) {
@@ -175,6 +193,8 @@ public class MeasurementActivity extends Activity {
 			progress.setMessage("Please wait...");
 			progress.setCanceledOnTouchOutside(false);
 
+			context = rootView.getContext();
+
 			return rootView;
 		}
 
@@ -208,7 +228,6 @@ public class MeasurementActivity extends Activity {
 				Fragment item = (Fragment) getActivity().getFragmentManager()
 						.findFragmentById(R.id.item_container);
 				if (item == null) {
-					System.out.println("if");
 					item = chooseView(shownIndex);
 					FragmentTransaction ft = getActivity().getFragmentManager()
 							.beginTransaction();
@@ -223,6 +242,82 @@ public class MeasurementActivity extends Activity {
 				editnote.putExtra("item", shownIndex);
 				startActivity(editnote);
 			}
+		}
+
+		public static void filledSet() {
+			int neck = 0;
+			int shoulders = 0;
+			int head = 0;
+			int chest = 0;
+			int arm = 0;
+			int hand = 0;
+			int hipAndWaist = 0;
+			int leg = 0;
+			int foot = 0;
+			int trunk = 0;
+			int heights = 0;
+			int pics = 0;
+			System.out.println(measurement.getMid_neck_girth()+"*");
+
+			if (!measurement.getMid_neck_girth().equals("")) {
+				neck += 1;
+			}
+			System.out.println("chk2");
+			if (!measurement.getAcross_back_shoulder_width().equals("")) {
+				shoulders += 1;
+			}
+			if (!measurement.getShoulder_drop().equals("")) {
+				shoulders += 1;
+			}
+			if (!measurement.getShoulder_slope_degrees().equals("")) {
+				shoulders += 1;
+			}
+			
+			if (!measurement.getBust_girth().equals("")) {
+				chest+=1;
+			}
+			
+			if (!measurement.getArm_length().equals("")) {
+				arm+=1;
+			}
+			if (!measurement.getUpper_arm_girth().equals("")) {
+				arm+=1;
+			}
+			if (!measurement.getArmscye_girth().equals("")) {
+				arm+=1;
+			}
+			if (!measurement.getWrist_girth().equals("")) {
+				arm+=1;
+			}
+			
+			if (!measurement.getHip_girth().equals("")) {
+				hipAndWaist+=1;
+			}
+			if (!measurement.getWaist_girth().equals("")) {
+				hipAndWaist+=1;
+			}
+			
+			if (!measurement.getHeight().equals("")) {
+				heights+=1;
+			}
+			if (!measurement.getHip_height().equals("")) {
+				heights+=1;
+			}
+			
+			filledFields[HEAD] = head+ HEAD_FILL;
+			filledFields[HAND] = hand+ HAND_FILL;
+			filledFields[NECK] = neck+ NECK_FILL;
+			filledFields[LEG] = leg+ LEG_FILL;
+			filledFields[FOOT] = foot+ FOOT_FILL;
+			filledFields[TRUNK] = trunk+ TRUNK_FILL;
+			filledFields[PICS] = pics+ PICS_FILL;
+			filledFields[CHEST] = chest+ CHEST_FILL;
+			filledFields[ARM] = arm+ ARM_FILL;
+			filledFields[HIP_AND_WAIST] = hipAndWaist + HIP_AND_WAIST_FILL;
+			filledFields[SHOULDER] = shoulders + SHOULDER_FILL;
+			filledFields[HEIGHTS] = heights + HEIGHTS_FILL;
+			
+
 		}
 
 		/**
@@ -401,9 +496,8 @@ public class MeasurementActivity extends Activity {
 
 			mid_neck_girth = (EditText) rootView
 					.findViewById(R.id.mid_neck_girth);
-			if (!measurement.getMid_neck_girth().equals("")) {
-				mid_neck_girth.setText(measurement.getMid_neck_girth());
-			}
+
+			mid_neck_girth.setText(measurement.getMid_neck_girth());
 			return rootView;
 		}
 
@@ -411,11 +505,16 @@ public class MeasurementActivity extends Activity {
 		public void onDestroy() {
 			// TODO Auto-generated method stub
 			super.onDestroy();
+			int filled = 0;
 			Log.d("measurement", "onDestroy");
-			if (!mid_neck_girth.getText().equals("")) {
-				measurement.setMid_neck_girth(mid_neck_girth.getText()
-						.toString());
+			measurement.setMid_neck_girth(mid_neck_girth.getText().toString());
+			if (!mid_neck_girth.getText().toString().equals("")) {
+				filled += 1;
 			}
+			GridAdapter ga = new GridAdapter(context);
+			filledFields[NECK] = filled + NECK_FILL;
+			ga.result = filledFields;
+			gridView.setAdapter(ga);
 		}
 
 	}
@@ -433,17 +532,11 @@ public class MeasurementActivity extends Activity {
 			shoulder_slope_degrees = (EditText) rootView
 					.findViewById(R.id.shoulder_slope_degrees);
 
-			if (!measurement.getAcross_back_shoulder_width().equals("")) {
-				across_back_shoulder_width.setText(measurement
-						.getAcross_back_shoulder_width());
-			}
-			if (!measurement.getShoulder_drop().equals("")) {
-				shoulder_drop.setText(measurement.getShoulder_drop());
-			}
-			if (!measurement.getShoulder_slope_degrees().equals("")) {
-				shoulder_slope_degrees.setText(measurement
-						.getShoulder_slope_degrees());
-			}
+			across_back_shoulder_width.setText(measurement
+					.getAcross_back_shoulder_width());
+			shoulder_drop.setText(measurement.getShoulder_drop());
+			shoulder_slope_degrees.setText(measurement
+					.getShoulder_slope_degrees());
 
 			return rootView;
 		}
@@ -452,19 +545,29 @@ public class MeasurementActivity extends Activity {
 		public void onDestroy() {
 			// TODO Auto-generated method stub
 			super.onDestroy();
-			if (!across_back_shoulder_width.getText().equals("")) {
-				measurement
-						.setAcross_back_shoulder_width(across_back_shoulder_width
-								.getText().toString());
+			int filled = 0;
+
+			measurement
+					.setAcross_back_shoulder_width(across_back_shoulder_width
+							.getText().toString());
+			measurement.setShoulder_drop(shoulder_drop.getText().toString());
+			measurement.setShoulder_slope_degrees(shoulder_slope_degrees
+					.getText().toString());
+
+			if (!across_back_shoulder_width.getText().toString().equals("")) {
+				filled += 1;
 			}
-			if (!shoulder_drop.getText().equals("")) {
-				measurement
-						.setShoulder_drop(shoulder_drop.getText().toString());
+			if (!shoulder_drop.getText().toString().equals("")) {
+				filled += 1;
 			}
-			if (!shoulder_slope_degrees.getText().equals("")) {
-				measurement.setShoulder_slope_degrees(shoulder_slope_degrees
-						.getText().toString());
+			if (!shoulder_slope_degrees.getText().toString().equals("")) {
+				filled += 1;
 			}
+
+			GridAdapter ga = new GridAdapter(context);
+			filledFields[SHOULDER] = filled + SHOULDER_FILL;
+			ga.result = filledFields;
+			gridView.setAdapter(ga);
 		}
 
 	}
@@ -473,12 +576,9 @@ public class MeasurementActivity extends Activity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.chest, container, false);
-
 			bust_girth = (EditText) rootView.findViewById(R.id.bust_girth);
 
-			if (!measurement.getBust_girth().equals("")) {
-				bust_girth.setText(measurement.getBust_girth());
-			}
+			bust_girth.setText(measurement.getBust_girth());
 			return rootView;
 		}
 
@@ -486,9 +586,15 @@ public class MeasurementActivity extends Activity {
 		public void onDestroy() {
 			// TODO Auto-generated method stub
 			super.onDestroy();
-			if (!bust_girth.getText().equals("")) {
-				measurement.setBust_girth(bust_girth.getText().toString());
+			int filled = 0;
+			measurement.setBust_girth(bust_girth.getText().toString());
+			if (!bust_girth.getText().toString().equals("")) {
+				filled += 1;
 			}
+			GridAdapter ga = new GridAdapter(context);
+			filledFields[CHEST] = filled + CHEST_FILL;
+			ga.result = filledFields;
+			gridView.setAdapter(ga);
 		}
 
 	}
@@ -505,39 +611,41 @@ public class MeasurementActivity extends Activity {
 					.findViewById(R.id.armscye_girth);
 			wrist_girth = (EditText) rootView.findViewById(R.id.wrist_girth);
 
-			if (!measurement.getArm_length().equals("")) {
-				arm_length.setText(measurement.getArm_length());
-			}
-			if (!measurement.getUpper_arm_girth().equals("")) {
-				upper_arm_girth.setText(measurement.getUpper_arm_girth());
-			}
-			if (!measurement.getArmscye_girth().equals("")) {
-				armscye_girth.setText(measurement.getArmscye_girth());
-			}
-			if (!measurement.getWrist_girth().equals("")) {
-				wrist_girth.setText(measurement.getWrist_girth());
-			}
+			arm_length.setText(measurement.getArm_length());
+			upper_arm_girth.setText(measurement.getUpper_arm_girth());
+			armscye_girth.setText(measurement.getArmscye_girth());
+			wrist_girth.setText(measurement.getWrist_girth());
 			return rootView;
 		}
 
 		@Override
 		public void onDestroy() {
-			// TODO Auto-generated method stub
+
 			super.onDestroy();
-			if (!arm_length.getText().equals("")) {
-				measurement.setArm_length(arm_length.getText().toString());
+			int filled = 0;
+
+			measurement.setArm_length(arm_length.getText().toString());
+			measurement
+					.setUpper_arm_girth(upper_arm_girth.getText().toString());
+			measurement.setArmscye_girth(armscye_girth.getText().toString());
+			measurement.setWrist_girth(wrist_girth.getText().toString());
+
+			if (!arm_length.getText().toString().equals("")) {
+				filled += 1;
 			}
-			if (!upper_arm_girth.getText().equals("")) {
-				measurement.setUpper_arm_girth(upper_arm_girth.getText()
-						.toString());
+			if (!upper_arm_girth.getText().toString().equals("")) {
+				filled += 1;
 			}
-			if (!armscye_girth.getText().equals("")) {
-				measurement
-						.setArmscye_girth(armscye_girth.getText().toString());
+			if (!armscye_girth.getText().toString().equals("")) {
+				filled += 1;
 			}
-			if (!wrist_girth.getText().equals("")) {
-				measurement.setWrist_girth(wrist_girth.getText().toString());
+			if (!wrist_girth.getText().toString().equals("")) {
+				filled += 1;
 			}
+			GridAdapter ga = new GridAdapter(context);
+			filledFields[ARM] = filled + ARM_FILL;
+			ga.result = filledFields;
+			gridView.setAdapter(ga);
 		}
 
 	}
@@ -551,6 +659,7 @@ public class MeasurementActivity extends Activity {
 	}
 
 	public static class HipAndWaist extends Fragment {
+
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.hip_and_waist, container,
@@ -559,26 +668,30 @@ public class MeasurementActivity extends Activity {
 			hip_girth = (EditText) rootView.findViewById(R.id.hip_girth);
 			waist_girth = (EditText) rootView.findViewById(R.id.waist_girth);
 
-			if (!measurement.getHip_girth().equals("")) {
-				hip_girth.setText(measurement.getHip_girth());
-			}
-			if (!measurement.getWaist_girth().equals("")) {
-				waist_girth.setText(measurement.getWaist_girth());
-			}
-
+			hip_girth.setText(measurement.getHip_girth());
+			waist_girth.setText(measurement.getWaist_girth());
 			return rootView;
 		}
 
 		@Override
 		public void onDestroy() {
-			// TODO Auto-generated method stub
+
 			super.onDestroy();
-			if (!hip_girth.getText().equals("")) {
-				measurement.setHip_girth(hip_girth.getText().toString());
+			int filled = 0;
+
+			measurement.setHip_girth(hip_girth.getText().toString());
+			measurement.setWaist_girth(waist_girth.getText().toString());
+
+			if (!hip_girth.getText().toString().equals("")) {
+				filled += 1;
 			}
-			if (!waist_girth.getText().equals("")) {
-				measurement.setWaist_girth(waist_girth.getText().toString());
+			if (!waist_girth.getText().toString().equals("")) {
+				filled += 1;
 			}
+			GridAdapter ga = new GridAdapter(context);
+			filledFields[HIP_AND_WAIST] = filled + HIP_AND_WAIST_FILL;
+			ga.result = filledFields;
+			gridView.setAdapter(ga);
 		}
 	}
 
@@ -615,25 +728,30 @@ public class MeasurementActivity extends Activity {
 			height = (EditText) rootView.findViewById(R.id.height);
 			hip_height = (EditText) rootView.findViewById(R.id.hip_height);
 
-			if (!measurement.getHeight().equals("")) {
-				height.setText(measurement.getHeight());
-			}
-			if (!measurement.getHip_height().equals("")) {
-				hip_height.setText(measurement.getHip_height());
-			}
+			height.setText(measurement.getHeight());
+			hip_height.setText(measurement.getHip_height());
 			return rootView;
 		}
 
 		@Override
 		public void onDestroy() {
-			// TODO Auto-generated method stub
+
 			super.onDestroy();
-			if (!height.getText().equals("")) {
-				measurement.setHeight(height.getText().toString());
+			int filled = 0;
+
+			measurement.setHeight(height.getText().toString());
+			measurement.setHip_height(hip_height.getText().toString());
+
+			if (!height.getText().toString().equals("")) {
+				filled += 1;
 			}
-			if (!hip_height.getText().equals("")) {
-				measurement.setHip_height(hip_height.getText().toString());
+			if (!hip_height.getText().toString().equals("")) {
+				filled += 1;
 			}
+			GridAdapter ga = new GridAdapter(context);
+			filledFields[HEIGHTS] = filled + HEIGHTS_FILL;
+			ga.result = filledFields;
+			gridView.setAdapter(ga);
 		}
 	}
 

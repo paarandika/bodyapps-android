@@ -33,7 +33,7 @@ public class Sync {
 	 * @param json
 	 * @return
 	 */
-	public static String POST(String url, String json, int conTimeOut, int socTimeOut) {
+	public String POST(String url, String json, int conTimeOut, int socTimeOut) {
 
 		InputStream inputStream = null;
 		String result = "";
@@ -70,7 +70,7 @@ public class Sync {
 	 * @return
 	 * @throws IOException
 	 */
-	private static String convertInputStreamToString(InputStream inputStream)
+	public String convertInputStreamToString(InputStream inputStream)
 			throws IOException {
 		BufferedReader bufferedReader = new BufferedReader(
 				new InputStreamReader(inputStream));

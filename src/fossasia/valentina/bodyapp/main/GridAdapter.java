@@ -8,18 +8,22 @@ package fossasia.valentina.bodyapp.main;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  *Adapter which handles the icon grid in Measurement activity.
  */
 public class GridAdapter extends BaseAdapter {
 	private Context mContext;
+	private static LayoutInflater inflater=null;
+	public String[] result={"0/0","0/1","0/3","0/1","0/4","0/0","0/2","0/0","0/0","0/0","0/2","0/3"};
 
 	// Keep all Images in array
 	public Integer[] mThumbIds = { R.drawable.head, R.drawable.neck,
@@ -31,6 +35,8 @@ public class GridAdapter extends BaseAdapter {
 	// Constructor
 	public GridAdapter(Context c) {
 		mContext = c;
+		inflater = ( LayoutInflater )c.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
@@ -59,9 +65,9 @@ public class GridAdapter extends BaseAdapter {
 		//get the device width in pixels
 		float width = metrics.widthPixels;
 		//loads image views as thumbnails to grid
-		ImageView imageView = new ImageView(mContext);
-		imageView.setImageResource(mThumbIds[position]);
-		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//		ImageView imageView = new ImageView(mContext);
+//		imageView.setImageResource(mThumbIds[position]);
+//		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		//sets the each thumbnail size according to the screen size
 		float num;
 		if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -71,10 +77,30 @@ public class GridAdapter extends BaseAdapter {
 		}
 
 		// System.out.println(num+" "+width+" "+(width/150)+" "+density);
-		imageView.setLayoutParams(new GridView.LayoutParams((int) (num),
-				(int) (num)));
-		return imageView;
+//		imageView.setLayoutParams(new GridView.LayoutParams((int) (num),
+//				(int) (num)));
+//		return imageView;
+		 Holder holder=new Holder();
+	        View rowView;
+	 
+	             rowView = inflater.inflate(R.layout.grid_cell, null);
+	             if(rowView==null){
+	            	 System.out.println("null");
+	             }
+	             holder.tv=(TextView) rowView.findViewById(R.id.textView1);
+	             holder.img=(ImageView) rowView.findViewById(R.id.imageView1);
+	             holder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+	 
+	         holder.tv.setText(result[position]);
+	         holder.img.setImageResource(mThumbIds[position]);
+	        rowView.setLayoutParams(new GridView.LayoutParams((int)(num),(int)(num)));
+	       return rowView;
 
 	}
+	public class Holder
+    {
+        TextView tv;
+        ImageView img;
+    }
 
 }
