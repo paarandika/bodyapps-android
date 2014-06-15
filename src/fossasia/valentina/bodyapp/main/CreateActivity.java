@@ -119,10 +119,10 @@ public class CreateActivity extends Activity {
 	private void setMeasurement(String name, String email) {
 		person = new Person(email, name, spnGender.getSelectedItemPosition());
 		// adds the person to DB and gets his ID
-		int personID = PersonManager.getInstance(this).getPerson(person);
+		int personID = PersonManager.getInstance(this.getApplicationContext()).getPerson(person);
 		if (personID == -1) {
 			PersonManager.getInstance(this).addPerson(person);
-			personID = PersonManager.getInstance(this).getPerson(person);
+			personID = PersonManager.getInstance(this.getApplicationContext()).getPerson(person);
 		}
 		System.out.println(personID);
 		person.setID(personID);
@@ -214,6 +214,11 @@ public class CreateActivity extends Activity {
 		
 		alertDialog = builder.create();
 		alertDialog.show();
+	}
+	@Override
+	public void onBackPressed() {
+		//alertDialog=null;
+		finish();
 	}
 
 }

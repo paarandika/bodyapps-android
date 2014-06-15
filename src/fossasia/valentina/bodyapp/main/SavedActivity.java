@@ -7,6 +7,7 @@ package fossasia.valentina.bodyapp.main;
 
 import java.io.Serializable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fossasia.valentina.bodyapp.managers.MeasurementManager;
@@ -94,7 +95,7 @@ public class SavedActivity extends Activity {
 			}
 
 			list = (ListView) rootView.findViewById(R.id.listView1);
-			measurementsList = getDataForListView(rootView.getContext());
+			measurementsList = getDataForListView(rootView.getContext().getApplicationContext());
 			ListAdapter adapter = new SavedAdapter(rootView.getContext(),
 					measurementsList);
 			list.setAdapter(adapter);
@@ -244,6 +245,10 @@ public class SavedActivity extends Activity {
 			}
 			return rootView;
 		}
+	}
+	@Override
+	public void onBackPressed() {
+		finish();
 	}
 
 }

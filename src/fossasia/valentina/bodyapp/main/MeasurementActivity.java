@@ -120,6 +120,11 @@ public class MeasurementActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 
 	/**
 	 * Fragment which handles the icon grid and related functionality.
@@ -163,7 +168,7 @@ public class MeasurementActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					DBSaver(v.getContext());
+					DBSaver(v.getContext().getApplicationContext());
 					Activity host = (Activity) v.getContext();
 					host.finish();
 				}
@@ -175,8 +180,8 @@ public class MeasurementActivity extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					DBSaver(v.getContext());
-					person = PersonManager.getInstance(v.getContext())
+					DBSaver(v.getContext().getApplicationContext());
+					person = PersonManager.getInstance(v.getContext().getApplicationContext())
 							.getPersonbyID(measurement.getPersonID());
 					System.out.println(person.getName());
 					progress.show();
@@ -471,6 +476,12 @@ public class MeasurementActivity extends Activity {
 				return true;
 			}
 			return super.onOptionsItemSelected(item);
+		}
+		
+		@Override
+		public void onBackPressed() {
+			//alertDialog=null;
+			finish();
 		}
 
 	}

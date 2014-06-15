@@ -197,7 +197,7 @@ public class SettingsActivity extends ActionBarActivity implements
 			Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 			mGoogleApiClient.disconnect();
 			mGoogleApiClient.connect();
-			UserManager.getInstance(getBaseContext()).unsetCurrent();
+			UserManager.getInstance(getBaseContext().getApplicationContext()).unsetCurrent();
 			updateUI(false);
 		}
 	}
@@ -219,7 +219,7 @@ public class SettingsActivity extends ActionBarActivity implements
 
 					});
 		}
-		UserManager.getInstance(getBaseContext()).unsetCurrent();
+		UserManager.getInstance(getBaseContext().getApplicationContext()).unsetCurrent();
 		reload();
 	}
 
@@ -370,7 +370,7 @@ public class SettingsActivity extends ActionBarActivity implements
 			
 			// creates a new user and check if he exists on db
 			User user = new User(email, personName, userID);
-			String isUser = UserManager.getInstance(getBaseContext()).isUser(
+			String isUser = UserManager.getInstance(getBaseContext().getApplicationContext()).isUser(
 					user);
 
 			if (isUser == null) {
@@ -389,7 +389,7 @@ public class SettingsActivity extends ActionBarActivity implements
 				} else {
 					// if user exists in DB and has a ID just sets him current
 					// user
-					UserManager.getInstance(getBaseContext()).setCurrent(user);
+					UserManager.getInstance(getBaseContext().getApplicationContext()).setCurrent(user);
 					txtConnected.setText("User connected");
 					userID = isUser;
 				}
@@ -470,35 +470,32 @@ public class SettingsActivity extends ActionBarActivity implements
 			if (userID != "") {
 
 				User user = new User(email, personName, userID);
-				String isUser = UserManager.getInstance(getBaseContext())
+				String isUser = UserManager.getInstance(getBaseContext().getApplicationContext())
 						.isUser(user);
 				if (isUser == null) {
 					// adds the user to the DB
-					UserManager.getInstance(getBaseContext()).addUser(user);
-					System.out.println(UserManager
-							.getInstance(getBaseContext()).isUser(user)
-							+ "is a user");
+					UserManager.getInstance(getBaseContext().getApplicationContext()).addUser(user);
 
 				} else {
-					UserManager.getInstance(getBaseContext()).setID(user);
-					UserManager.getInstance(getBaseContext()).setCurrent(user);
+					UserManager.getInstance(getBaseContext().getApplicationContext()).setID(user);
+					UserManager.getInstance(getBaseContext().getApplicationContext()).setCurrent(user);
 				}
 				//if user added measurements before sign in, those measurements will be added to the signed in user
-				MeasurementManager.getInstance(getBaseContext()).setUserID(userID);
+				MeasurementManager.getInstance(getBaseContext().getApplicationContext()).setUserID(userID);
 				txtConnected.setText("User connected");
 			} else {
 				Log.d("settings", "cannot");
 				// adds the user to the DB, but without the ID if the user
 				// currently not on db
 				User user = new User(email, personName, "NoID");
-				String isUser = UserManager.getInstance(getBaseContext())
+				String isUser = UserManager.getInstance(getBaseContext().getApplicationContext())
 						.isUser(user);
 				if (isUser == null) {
-					UserManager.getInstance(getBaseContext()).addUser(user);
-					MeasurementManager.getInstance(getBaseContext()).setUserID("NoID");
+					UserManager.getInstance(getBaseContext().getApplicationContext()).addUser(user);
+					MeasurementManager.getInstance(getBaseContext().getApplicationContext()).setUserID("NoID");
 				}
-				UserManager.getInstance(getBaseContext()).setCurrent(user);
-				MeasurementManager.getInstance(getBaseContext()).setUserID("NoID");
+				UserManager.getInstance(getBaseContext().getApplicationContext()).setCurrent(user);
+				MeasurementManager.getInstance(getBaseContext().getApplicationContext()).setUserID("NoID");
 				alertDialog.show();
 				txtConnected.setText("User not connected");
 			}
