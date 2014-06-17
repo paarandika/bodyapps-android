@@ -83,7 +83,7 @@
                     android:weightSum="1.0" >
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/vsa_txt_mid_neck_girth"
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:text="@string/unit" 

@@ -175,4 +175,38 @@ public class MeasurementManager {
 						+ "'", null);
 		database.close();
 	}
+	
+	public Measurement getMeasurement(String ID){
+		Log.d("measurementmanager", "getMeasurement");
+		this.database = this.dbHandler.getReadableDatabase();
+		Cursor cursor = database
+				.query(DBContract.Measurement.TABLE_NAME,DBContract.Measurement.allColumns,
+						DBContract.Measurement.COLUMN_NAME_ID + " ='" + ID
+								+ "'", null, null, null, null);
+
+		Measurement ms=null;
+		if (cursor.moveToFirst()) {
+			ms=new Measurement(cursor.getString(0),cursor.getString(1),cursor.getInt(2),Integer.parseInt(cursor.getString(6)));
+			ms.setCreated(cursor.getString(3));
+			ms.setLastSync(cursor.getString(4));
+			ms.setLastEdit(cursor.getString(5));
+			ms.setMid_neck_girth(cursor.getString(7));
+			ms.setBust_girth(cursor.getString(8));
+			ms.setWaist_girth(cursor.getString(9));
+			ms.setHip_girth(cursor.getString(10));
+			ms.setAcross_back_shoulder_width(cursor.getString(11));
+			ms.setShoulder_drop(cursor.getString(12));
+			ms.setShoulder_slope_degrees(cursor.getString(13));
+			ms.setArm_length(cursor.getString(14));
+			ms.setUpper_arm_girth(cursor.getString(15));
+			ms.setArmscye_girth(cursor.getString(16));
+			ms.setHeight(cursor.getString(17));
+			ms.setHip_height(cursor.getString(18));
+			ms.setWrist_girth(cursor.getString(19));
+			
+			cursor.close();
+			database.close();
+		}
+		return ms;
+	}
 }
